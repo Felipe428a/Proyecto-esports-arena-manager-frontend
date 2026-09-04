@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es"> 
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>eSports Arena Manager — Detalle de torneo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/estilos.css" />
+</head>
+<body>
+
+  <header class="encabezado">
+    <div class="barra-encabezado contenedor">
+      <a href="index.html" class="marca">Arena<span>Manager</span></a>
+      <nav class="nav-principal" aria-label="Navegación principal">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="torneos.html">Torneos</a></li>
+          <li><a href="inscripcion.html">Inscripción</a></li>
+          <li><a href="equipo.html">Mi equipo</a></li>
+          <li><a href="perfil.html">Mi perfil</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="seccion-general">
+      <div class="contenedor">
+        <p><a href="torneos.html">&larr; Volver al listado de torneos</a></p>
+        <div id="contenido-general">
+          <!-- Datos generales renderizados por js/detalle-torneo.js -->
+        </div>
+      </div>
+    </section>
+
+    <section id="seccion-participantes">
+      <div class="contenedor">
+        <h2>Participantes inscritos</h2>
+        <ul id="lista-participantes" class="rejilla-tarjetas" style="grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); list-style:none; padding:0;">
+          <!-- Participantes renderizados por js/detalle-torneo.js -->
+        </ul>
+      </div>
+    </section>
+
+    <section id="seccion-llaves">
+      <div class="contenedor">
+        <h2>Llaves y calendario de partidas</h2>
+        <div id="selector-rondas" class="selector-rondas" role="tablist" aria-label="Rondas del torneo">
+          <!-- Botones de ronda renderizados por js/detalle-torneo.js -->
+        </div>
+        <ul id="lista-partidas" class="lista-partidas">
+          <!-- Partidas de la ronda seleccionada -->
+        </ul>
+      </div>
+    </section>
+
+    <section id="seccion-ranking">
+      <div class="contenedor">
+        <h2>Tabla de posiciones</h2>
+        <table class="tabla-datos">
+          <caption>Se recalcula automáticamente con cada resultado validado.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Posición</th>
+              <th scope="col">Participante</th>
+              <th scope="col">Victorias</th>
+              <th scope="col">Derrotas</th>
+              <th scope="col">Diferencia de puntaje</th>
+            </tr>
+          </thead>
+          <tbody id="cuerpo-ranking">
+            <!-- Filas renderizadas por js/detalle-torneo.js -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="seccion-premios">
+      <div class="contenedor">
+        <h2>Premios</h2>
+        <div id="contenido-premios">
+          <!-- Renderizado por js/detalle-torneo.js: solo visible si el torneo está finalizado -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie-pagina">
+    <div class="pie-cuadro contenedor">
+      <div>
+        <h4>eSports Arena Manager</h4>
+        <p>Plataforma para organizar torneos de videojuegos competitivos: inscripciones, partidas, resultados y rankings en un solo lugar.</p>
+      </div>
+      <div>
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="torneos.html">Listado de torneos</a></li>
+          <li><a href="inscripcion.html">Inscribirme a un torneo</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="mailto:contacto@arenamanager.cl">contacto@arenamanager.cl</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="pie-legal">© 2026 eSports Arena Manager. Proyecto académico — Desarrollo FullStack II.</p>
+  </footer>
+
+  <script src="js/datos.js"></script>
+  <script src="js/comun.js"></script>
+  <script src="js/detalle-torneo.js"></script>
+</body>
+</html>
