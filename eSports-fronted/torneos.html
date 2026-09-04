@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>eSports Arena Manager — Listado de torneos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/estilos.css" />
+</head>
+<body>
+
+  <header class="encabezado">
+    <div class="barra-encabezado contenedor">
+      <a href="index.html" class="marca">Arena<span>Manager</span></a>
+      <nav class="nav-principal" aria-label="Navegación principal">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="torneos.html">Torneos</a></li>
+          <li><a href="inscripcion.html">Inscripción</a></li>
+          <li><a href="equipo.html">Mi equipo</a></li>
+          <li><a href="perfil.html">Mi perfil</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <div class="contenedor">
+        <h1>Listado de torneos</h1>
+        <p>Explora todos los torneos de la temporada y filtra por juego, estado o fecha.</p>
+
+        <form id="formulario-filtros" class="formulario formulario--ancho" novalidate>
+          <div class="fila-campos">
+            <div class="campo">
+              <label for="filtro-buscar">Buscar por nombre</label>
+              <input type="text" id="filtro-buscar" name="buscar" autocomplete="off"
+                placeholder="Ej: Copa Arena" />
+              <span class="ayuda">Escribe parte del nombre del torneo.</span>
+            </div>
+
+            <div class="campo">
+              <label for="filtro-juego">Juego</label>
+              <select id="filtro-juego" name="juego">
+                <option value="">Todos los juegos</option>
+              </select>
+            </div>
+
+            <div class="campo">
+              <label for="filtro-estado">Estado</label>
+              <select id="filtro-estado" name="estado">
+                <option value="">Todos los estados</option>
+                <option value="abierto">Inscripciones abiertas</option>
+                <option value="en_curso">En curso</option>
+                <option value="finalizado">Finalizado</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="fila-campos">
+            <div class="campo">
+              <label for="filtro-fecha-desde">Cierre de inscripción desde</label>
+              <input type="date" id="filtro-fecha-desde" name="fechaDesde" />
+            </div>
+            <div class="campo">
+              <label for="filtro-fecha-hasta">Cierre de inscripción hasta</label>
+              <input type="date" id="filtro-fecha-hasta" name="fechaHasta" />
+              <span id="error-filtro-fecha-hasta" class="mensaje-error" hidden></span>
+            </div>
+          </div>
+
+          <div class="acciones-formulario">
+            <button type="submit" class="boton boton-primario">Aplicar filtros</button>
+            <button type="reset" id="boton-limpiar" class="boton boton-secundario">Limpiar</button>
+          </div>
+        </form>
+
+        <p id="contador-resultados" aria-live="polite" style="color:var(--color-texto-tenue); margin-top:1.5rem;"></p>
+
+        <div id="lista-torneos" class="rejilla-tarjetas" aria-live="polite">
+          <!-- Tarjetas renderizadas por js/torneos.js -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie-pagina">
+    <div class="pie-cuadro contenedor">
+      <div>
+        <h4>eSports Arena Manager</h4>
+        <p>Plataforma para organizar torneos de videojuegos competitivos: inscripciones, partidas, resultados y rankings en un solo lugar.</p>
+      </div>
+      <div>
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="inscripcion.html">Inscribirme a un torneo</a></li>
+          <li><a href="perfil.html">Mi perfil</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="mailto:contacto@arenamanager.cl">contacto@arenamanager.cl</a></li>
+          <li><a href="#">Soporte y reglamento</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="pie-legal">© 2026 eSports Arena Manager. Proyecto académico — Desarrollo FullStack II.</p>
+  </footer>
+
+  <script src="js/datos.js"></script>
+  <script src="js/comun.js"></script>
+  <script src="js/torneos.js"></script>
+</body>
+</html>
