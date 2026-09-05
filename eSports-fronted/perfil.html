@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>eSports Arena Manager — Perfil de jugador</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/estilos.css" />
+</head>
+<body>
+
+  <header class="encabezado">
+    <div class="barra-encabezado contenedor"></div>
+      <a href="index.html" class="marca">Arena<span>Manager</span></a>
+      <nav class="nav-principal" aria-label="Navegación principal">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="torneos.html">Torneos</a></li>
+          <li><a href="inscripcion.html">Inscripción</a></li>
+          <li><a href="equipo.html">Mi equipo</a></li>
+          <li><a href="perfil.html">Mi perfil</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <div class="contenedor">
+        <h1>Perfil de jugador</h1>
+        <p>Consulta la ficha competitiva de un participante de la arena.</p>
+
+        <div class="campo" style="max-width:420px;">
+          <label for="selector-jugador">Jugador</label>
+          <select id="selector-jugador"></select>
+        </div>
+
+        <div id="contenido-perfil" style="margin-top:1.5rem;">
+        </div>
+
+        <h2 style="margin-top:2.5rem;">Editar apodo</h2>
+        <form id="formulario-apodo" class="formulario" novalidate>
+          <div class="campo">
+            <label for="campo-apodo">Nuevo apodo</label>
+            <input type="text" id="campo-apodo" name="apodo" autocomplete="nickname"
+              maxlength="16" placeholder="Ej: camro" />
+            <span class="ayuda">Sin espacios, entre 3 y 16 caracteres.</span>
+            <span id="error-campo-apodo" class="mensaje-error" hidden></span>
+          </div>
+          <div class="acciones-formulario">
+            <button type="submit" class="boton boton-primario">Guardar apodo</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie-pagina">
+    <div class="pie-cuadro contenedor">
+      <div>
+        <h4>eSports Arena Manager</h4>
+        <p>Plataforma para organizar torneos de videojuegos competitivos: inscripciones, partidas, resultados y rankings en un solo lugar.</p>
+      </div>
+      <div>
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="torneos.html">Listado de torneos</a></li>
+          <li><a href="equipo.html">Gestionar mi equipo</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="mailto:contacto@arenamanager.cl">contacto@arenamanager.cl</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="pie-legal">© 2026 eSports Arena Manager. Proyecto académico — Desarrollo FullStack II.</p>
+  </footer>
+
+  <script src="js/datos.js"></script>
+  <script src="js/comun.js"></script>
+  <script src="js/perfil.js"></script>
+</body>
+</html>
