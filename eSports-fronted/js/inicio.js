@@ -22,7 +22,6 @@ function crearTarjetaTorneo(torneo) {
 function renderizarDestacados() {
   const contenedor = document.getElementById("lista-destacados");
   const destacados = TORNEOS.filter((t) => t.estado === "abierto" || t.estado === "en_curso");
-
   if (destacados.length === 0) {
     mostrarMensajeEstado(contenedor, "Por ahora no hay torneos abiertos o en curso. Vuelve pronto.", "vacio");
     return;
@@ -31,7 +30,6 @@ function renderizarDestacados() {
   contenedor.innerHTML = "";
   destacados.forEach((torneo) => contenedor.appendChild(crearTarjetaTorneo(torneo)));
 }
-
 function renderizarCierres() {
   const contenedor = document.getElementById("lista-cierres");
   const abiertos = TORNEOS
@@ -64,7 +62,6 @@ function renderizarResumen() {
   document.getElementById("dato-en-curso").textContent =
     TORNEOS.filter((t) => t.estado === "en_curso").length;
 }
-
 document.addEventListener("DOMContentLoaded", () => {
   renderizarResumen();
   renderizarDestacados();

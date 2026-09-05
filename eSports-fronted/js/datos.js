@@ -119,14 +119,14 @@ const TORNEOS = [
   }
 ];
 
-/** Inscripciones vigentes. */
+/* Inscripciones vigentes. */
 const INSCRIPCIONES = [
   { id: 1, torneoId: 1, participanteTipo: "equipo", participanteId: 1, fecha: "2026-08-25" },
   { id: 2, torneoId: 2, participanteTipo: "equipo", participanteId: 2, fecha: "2026-08-10" },
   { id: 3, torneoId: 3, participanteTipo: "jugador", participanteId: 7, fecha: "2026-08-29" }
 ];
 
-/** Partidas por torneo y ronda. */
+/* Partidas por torneo y ronda. */
 const PARTIDAS = [
   {
     id: 1, torneoId: 2, ronda: 1, estado: "jugada",
