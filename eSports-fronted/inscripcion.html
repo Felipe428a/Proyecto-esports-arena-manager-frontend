@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>eSports Arena Manager — Inscripción a torneo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/estilos.css" />
+</head>
+<body>
+
+  <header class="encabezado">
+    <div class="barra-encabezado contenedor">
+      <a href="index.html" class="marca">Arena<span>Manager</span></a>
+      <nav class="nav-principal" aria-label="Navegación principal">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="torneos.html">Torneos</a></li>
+          <li><a href="inscripcion.html">Inscripción</a></li>
+          <li><a href="equipo.html">Mi equipo</a></li>
+          <li><a href="perfil.html">Mi perfil</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <div class="contenedor">
+        <h1>Inscripción a torneo</h1>
+        <p>Registra la participación de un jugador o de un equipo completo en el torneo elegido.</p>
+
+        <form id="formulario-inscripcion" class="formulario" novalidate>
+          <div class="campo">
+            <label for="campo-torneo">Torneo</label>
+            <select id="campo-torneo" name="torneo" autocomplete="off"></select>
+            <span id="error-campo-torneo" class="mensaje-error" hidden></span>
+          </div>
+
+          <fieldset class="campo" style="border:none; padding:0; margin:0;">
+            <legend style="font-weight:600; margin-bottom:0.3rem;">Tipo de participante</legend>
+            <div class="fila-radios">
+              <label><input type="radio" name="tipoParticipante" value="jugador" checked /> Jugador individual</label>
+              <label><input type="radio" name="tipoParticipante" value="equipo" /> Equipo</label>
+            </div>
+          </fieldset>
+
+          <div class="campo">
+            <label for="campo-jugador">Jugador que se inscribe</label>
+            <select id="campo-jugador" name="jugador" autocomplete="off"></select>
+            <span class="ayuda">Simula la sesión activa mientras EP1 no cuenta con autenticación real.</span>
+          </div>
+
+          <div class="campo" id="contenedor-equipo" hidden>
+            <label for="campo-equipo">Selecciona tu equipo</label>
+            <select id="campo-equipo" name="equipo" autocomplete="off"></select>
+            <span id="error-campo-equipo" class="mensaje-error" hidden></span>
+          </div>
+
+          <div id="resumen-requisitos" class="mensaje-estado mensaje-estado--info" aria-live="polite">
+            Elige un torneo para ver sus requisitos.
+          </div>
+
+          <span id="error-general" class="mensaje-error" hidden role="alert"></span>
+
+          <div class="acciones-formulario">
+            <button type="submit" id="boton-inscribir" class="boton boton-primario">Confirmar inscripción</button>
+          </div>
+        </form>
+
+        <div id="confirmacion" class="mensaje-estado mensaje-estado--exito" hidden style="margin-top:1.5rem;" aria-live="polite">
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie-pagina">
+    <div class="pie-cuadro contenedor">
+      <div>
+        <h4>eSports Arena Manager</h4>
+        <p>Plataforma para organizar torneos de videojuegos competitivos: inscripciones, partidas, resultados y rankings en un solo lugar.</p>
+      </div>
+      <div>
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="torneos.html">Listado de torneos</a></li>
+          <li><a href="equipo.html">Gestionar mi equipo</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="mailto:contacto@arenamanager.cl">contacto@arenamanager.cl</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="pie-legal">© 2026 eSports Arena Manager. Proyecto académico — Desarrollo FullStack II.</p>
+  </footer>
+
+  <script src="js/datos.js"></script>
+  <script src="js/comun.js"></script>
+  <script src="js/inscripcion.js"></script>
+</body>
+</html>

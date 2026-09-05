@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>eSports Arena Manager — Inicio</title>
+  <meta name="description" content="Plataforma para organizar torneos de videojuegos competitivos: torneos, equipos, inscripciones y rankings." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/estilos.css" />
+</head>
+<body>
+
+  <header class="encabezado">
+    <div class="barra-encabezado contenedor">
+      <a href="index.html" class="marca">Arena<span>Manager</span></a>
+      <nav class="nav-principal" aria-label="Navegación principal">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="torneos.html">Torneos</a></li>
+          <li><a href="inscripcion.html">Inscripción</a></li>
+          <li><a href="equipo.html">Mi equipo</a></li>
+          <li><a href="perfil.html">Mi perfil</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="heroe">
+      <div class="contenedor heroe-cuadro">
+        <div>
+          <p class="heroe-etiqueta">TEMPORADA 2026</p>
+          <h1>Organiza y sigue tus torneos de eSports en un solo lugar</h1>
+          <p>
+            eSports Arena Manager centraliza juegos habilitados, equipos, inscripciones, partidas
+            y tablas de posiciones, dejando siempre claro qué acciones están disponibles para cada rol.
+          </p>
+          <a class="boton boton-primario" href="torneos.html">Ver todos los torneos</a>
+        </div>
+        <div class="heroe-panel">
+          <h2 style="border:none;padding:0;">Estado de la arena</h2>
+          <dl>
+            <dt>Juegos habilitados</dt>
+            <dd id="dato-juegos">—</dd>
+            <dt>Torneos con inscripción abierta</dt>
+            <dd id="dato-abiertos">—</dd>
+            <dt>Torneos en curso</dt>
+            <dd id="dato-en-curso">—</dd>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section id="destacados">
+      <div class="contenedor">
+        <h2>Torneos destacados</h2>
+        <p>Torneos con inscripción abierta o que ya se están jugando esta temporada.</p>
+        <div id="lista-destacados" class="rejilla-tarjetas" aria-live="polite">
+        </div>
+      </div>
+    </section>
+
+    <section id="cierres">
+      <div class="contenedor">
+        <h2>Próximos cierres de inscripción</h2>
+        <p>No te quedes fuera: estos son los torneos abiertos que cierran inscripciones primero.</p>
+        <ul id="lista-cierres" class="lista-cierres" aria-live="polite">
+        </ul>
+      </div>
+    </section>
+
+    <section id="video">
+      <div class="contenedor">
+        <h2>Revive la última gran final</h2>
+        <p>Un adelanto de lo que se vive en la arena cuando dos equipos llegan a la final.</p>
+        <figure class="envoltorio-video">
+          <video controls preload="metadata"
+            poster="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.jpg">
+            <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
+            Tu navegador no soporta la reproducción de video incrustado.
+          </video>
+          <figcaption class="oculto-visualmente">Video de referencia de una final de torneo</figcaption>
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie-pagina">
+    <div class="pie-cuadro contenedor">
+      <div>
+        <h4>eSports Arena Manager</h4>
+        <p>Plataforma para organizar torneos de videojuegos competitivos: inscripciones, partidas, resultados y rankings en un solo lugar.</p>
+      </div>
+      <div>
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="torneos.html">Listado de torneos</a></li>
+          <li><a href="inscripcion.html">Inscribirme a un torneo</a></li>
+          <li><a href="equipo.html">Gestionar mi equipo</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="mailto:contacto@arenamanager.cl">contacto@arenamanager.cl</a></li>
+          <li><a href="#">Soporte y reglamento</a></li>
+          <li><a href="#">Reportar un problema</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="pie-legal">© 2026 eSports Arena Manager. Proyecto académico — Desarrollo FullStack II.</p>
+  </footer>
+
+  <script src="js/datos.js"></script>
+  <script src="js/comun.js"></script>
+  <script src="js/inicio.js"></script>
+</body>
+</html>
