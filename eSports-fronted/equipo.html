@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>eSports Arena Manager — Gestión de equipo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/estilos.css" />
+</head>
+<body>
+
+  <header class="encabezado">
+    <div class="barra-encabezado contenedor">
+      <a href="index.html" class="marca">Arena<span>Manager</span></a>
+      <nav class="nav-principal" aria-label="Navegación principal">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="torneos.html">Torneos</a></li>
+          <li><a href="inscripcion.html">Inscripción</a></li>
+          <li><a href="equipo.html">Mi equipo</a></li>
+          <li><a href="perfil.html">Mi perfil</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <div class="contenedor">
+        <h1>Gestión de equipo</h1>
+        <p>Crea un equipo nuevo o administra los integrantes de uno existente.</p>
+
+        <h2>Crear equipo</h2>
+        <form id="formulario-equipo" class="formulario" novalidate>
+          <div class="campo">
+            <label for="campo-nombre-equipo">Nombre del equipo</label>
+            <input type="text" id="campo-nombre-equipo" name="nombreEquipo" autocomplete="off"
+              placeholder="Ej: Escuadrón Nocturno" />
+            <span class="ayuda">Debe ser único entre los equipos existentes.</span>
+            <span id="error-campo-nombre-equipo" class="mensaje-error" hidden></span>
+          </div>
+
+          <div class="fila-campos">
+            <div class="campo">
+              <label for="campo-juego-equipo">Juego principal</label>
+              <select id="campo-juego-equipo" name="juegoEquipo"></select>
+            </div>
+            <div class="campo">
+              <label for="campo-capitan">Capitán</label>
+              <select id="campo-capitan" name="capitan"></select>
+              <span id="error-campo-capitan" class="mensaje-error" hidden></span>
+            </div>
+          </div>
+
+          <div class="acciones-formulario">
+            <button type="submit" class="boton boton-primario">Crear equipo</button>
+          </div>
+        </form>
+
+        <h2 style="margin-top:2.5rem;">Administrar integrantes</h2>
+        <div class="campo" style="max-width:420px;">
+          <label for="selector-equipo-actual">Equipo a administrar</label>
+          <select id="selector-equipo-actual"></select>
+        </div>
+
+        <div id="panel-equipo" style="margin-top:1rem;">
+          <!-- Detalle del equipo, integrantes y formulario para agregar jugadores -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie-pagina">
+    <div class="pie-cuadro contenedor">
+      <div>
+        <h4>eSports Arena Manager</h4>
+        <p>Plataforma para organizar torneos de videojuegos competitivos: inscripciones, partidas, resultados y rankings en un solo lugar.</p>
+      </div>
+      <div>
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="torneos.html">Listado de torneos</a></li>
+          <li><a href="inscripcion.html">Inscribirme a un torneo</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="mailto:contacto@arenamanager.cl">contacto@arenamanager.cl</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="pie-legal">© 2026 eSports Arena Manager. Proyecto académico — Desarrollo FullStack II.</p>
+  </footer>
+
+  <script src="js/datos.js"></script>
+  <script src="js/comun.js"></script>
+  <script src="js/equipo.js"></script>
+</body>
+</html>
