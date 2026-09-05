@@ -1,23 +1,24 @@
-/* Paleta táctico rojo */
+/* Estilos compartidos de eSports Arena Manager. */
 
 :root {
-  /* Colores */
+  /* Colores base de la interfaz. */
   --color-fondo: #0f1923;
   --color-superficie: #1b2733;
-  --color-superficie-alta: #24333f;
   --color-primario: #ff4655;
-  --color-primario-oscuro: #d6303e;
   --color-acento: #ece8e1;
   --color-texto: #ece8e1;
-  --color-texto-tenue: #a9b4bd;
   --color-error: #ff8a00;
-  --color-exito: #4fd18b;
 
-  /* Tipografía */
+  /* Tonos derivados para bordes, hover y texto secundario. */
+  --color-superficie-alta: color-mix(in srgb, var(--color-superficie) 80%, white 20%);
+  --color-texto-tenue: color-mix(in srgb, var(--color-texto) 65%, var(--color-fondo) 35%);
+  --color-primario-hover: color-mix(in srgb, var(--color-primario) 80%, black 20%);
+
+  /* Tipografía. */
   --fuente-titulos: "Rajdhani", "Segoe UI", sans-serif;
   --fuente-texto: "Inter", "Segoe UI", sans-serif;
 
-  /* Espaciado */
+  /* Medidas generales. */
   --radio-borde: 6px;
   --ancho-contenido: 1180px;
   --espacio-1: 0.5rem;
@@ -27,7 +28,7 @@
   --sombra-tarjeta: 0 8px 24px rgba(0, 0, 0, 0.35);
 }
 
-/* Reinicio */
+/* Reinicio básico. */
 *, *::before, *::after { box-sizing: border-box; }
 
 html { scroll-behavior: smooth; }
@@ -67,7 +68,7 @@ p { margin: 0 0 var(--espacio-2); max-width: 70ch; }
   outline-offset: 2px;
 }
 
-/* Layout */
+/* Layout general. */
 .contenedor {
   width: 100%;
   max-width: var(--ancho-contenido);
@@ -80,7 +81,7 @@ main { flex: 1; }
 section { padding: var(--espacio-4) 0; }
 section + section { border-top: 1px solid var(--color-superficie); }
 
-/* Encabezado */
+/* Encabezado y navegación. */
 .encabezado {
   background-color: var(--color-superficie);
   border-bottom: 1px solid var(--color-superficie-alta);
@@ -133,7 +134,7 @@ section + section { border-top: 1px solid var(--color-superficie); }
   border-bottom-color: var(--color-primario);
 }
 
-/* Botones */
+/* Botones. */
 .boton {
   display: inline-block;
   font-family: var(--fuente-titulos);
@@ -152,7 +153,7 @@ section + section { border-top: 1px solid var(--color-superficie); }
   background-color: var(--color-primario);
   color: var(--color-fondo); 
 }
-.boton-primario:hover { background-color: var(--color-primario-oscuro); color: #ffffff; }
+.boton-primario:hover { background-color: var(--color-primario-hover); color: #ffffff; }
 
 .boton-secundario {
   background-color: transparent;
@@ -164,7 +165,7 @@ section + section { border-top: 1px solid var(--color-superficie); }
 .boton-pequeno { padding: 0.4rem 0.8rem; font-size: 0.85rem; }
 .boton:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* Heroe */
+/* Héroe de inicio. */
 .heroe {
   padding: var(--espacio-4) 0;
   background:
@@ -197,7 +198,7 @@ section + section { border-top: 1px solid var(--color-superficie); }
 .heroe-panel dt { color: var(--color-texto-tenue); }
 .heroe-panel dd { margin: 0; font-weight: 600; }
 
-/* Torneos */
+/* Tarjetas de torneo. */
 .rejilla-tarjetas {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -228,9 +229,17 @@ section + section { border-top: 1px solid var(--color-superficie); }
   border: 1px solid currentColor;
 }
 
-.estado-abierto { color: var(--color-exito); }
-.estado-en-curso { color: var(--color-primario); }
+.estado-abierto { color: var(--color-acento); }
+.estado-abierto::before { content: "● "; }
+
 .estado-finalizado { color: var(--color-texto-tenue); }
+.estado-finalizado::before { content: "■ "; }
+.estado-en-curso {
+  color: var(--color-fondo);
+  background-color: var(--color-primario);
+  border-color: var(--color-primario);
+}
+.estado-en-curso::before { content: "▶ "; }
 
 .tarjeta-torneo .fila-dato {
   display: flex;
@@ -249,7 +258,7 @@ section + section { border-top: 1px solid var(--color-superficie); }
 }
 .barra-cupos > span { display: block; height: 100%; background-color: var(--color-primario); }
 
-/* Próximos cierres */
+/* Próximos cierres. */
 .lista-cierres { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--espacio-2); }
 .lista-cierres li {
   display: flex;
@@ -261,7 +270,7 @@ section + section { border-top: 1px solid var(--color-superficie); }
   border-radius: var(--radio-borde);
 }
 
-/* Video */
+/* Video. */
 .envoltorio-video {
   position: relative;
   width: 100%;
@@ -272,7 +281,7 @@ section + section { border-top: 1px solid var(--color-superficie); }
 }
 .envoltorio-video video { width: 100%; display: block; background: #000; }
 
-/* Formularios */
+/* Formularios. */
 .formulario {
   background-color: var(--color-superficie);
   border: 1px solid var(--color-superficie-alta);
@@ -323,19 +332,24 @@ section + section { border-top: 1px solid var(--color-superficie); }
 
 .acciones-formulario { display: flex; gap: var(--espacio-2); flex-wrap: wrap; }
 
-/* Mensajes de estado */
+/* Mensajes de estado. */
 .mensaje-estado {
   border-radius: var(--radio-borde);
   padding: var(--espacio-2) var(--espacio-3);
   border-left: 4px solid var(--color-texto-tenue);
   background-color: var(--color-superficie);
 }
+.mensaje-estado--vacio::before { content: "— "; }
+.mensaje-estado--info::before { content: "ℹ "; }
+.mensaje-estado--error::before { content: "⚠ "; }
+.mensaje-estado--exito::before { content: "✓ "; }
+
 .mensaje-estado--vacio { border-left-color: var(--color-texto-tenue); }
 .mensaje-estado--error { border-left-color: var(--color-error); color: var(--color-error); }
-.mensaje-estado--exito { border-left-color: var(--color-exito); color: var(--color-exito); }
+.mensaje-estado--exito { border-left-color: var(--color-acento); color: var(--color-texto); font-weight: 600; }
 .mensaje-estado--info { border-left-color: var(--color-primario); }
 
-/* Tablas */
+/* Tablas. */
 .tabla-datos { width: 100%; border-collapse: collapse; }
 .tabla-datos caption { text-align: left; color: var(--color-texto-tenue); margin-bottom: var(--espacio-2); }
 .tabla-datos th, .tabla-datos td {
@@ -347,7 +361,7 @@ section + section { border-top: 1px solid var(--color-superficie); }
 .tabla-datos tbody tr:hover { background-color: var(--color-superficie-alta); }
 .tabla-datos .posicion-1 { color: var(--color-primario); font-weight: 700; }
 
-/* Rondas */
+/* Llaves y rondas. */
 .selector-rondas { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: var(--espacio-2); }
 .lista-partidas { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--espacio-2); }
 .tarjeta-partida {
@@ -364,14 +378,14 @@ section + section { border-top: 1px solid var(--color-superficie); }
 .enfrentamiento { font-family: var(--fuente-titulos); font-size: 1.05rem; }
 .enfrentamiento .marcador { color: var(--color-primario); padding: 0 0.4rem; }
 
-/* Perfil */
+/* Perfil. */
 .rejilla-perfil { display: grid; grid-template-columns: 1fr 1fr; gap: var(--espacio-3); }
 .tarjeta-info { background-color: var(--color-superficie); border-radius: var(--radio-borde); padding: var(--espacio-3); border: 1px solid var(--color-superficie-alta); }
 .chip { display: inline-block; background-color: var(--color-superficie-alta); border-radius: 999px; padding: 0.2rem 0.7rem; font-size: 0.85rem; margin: 0.15rem 0.3rem 0.15rem 0; }
 .chip--sancion { color: var(--color-error); border: 1px solid var(--color-error); background: transparent; }
 .chip--cumplida { color: var(--color-texto-tenue); border: 1px solid var(--color-texto-tenue); background: transparent; }
 
-/* Pie de página */
+/* Pie de página. */
 .pie-pagina {
   background-color: var(--color-superficie);
   border-top: 1px solid var(--color-superficie-alta);
@@ -395,13 +409,13 @@ section + section { border-top: 1px solid var(--color-superficie); }
   border-top: 1px solid var(--color-superficie-alta);
 }
 
-/* Utilidades */
+/* Utilidades. */
 .oculto-visualmente {
   position: absolute; width: 1px; height: 1px; overflow: hidden;
   clip: rect(0 0 0 0); white-space: nowrap;
 }
 
-/* Responsive */
+/* Ajustes responsivos. */
 @media (max-width: 800px) {
   .heroe-cuadro { grid-template-columns: 1fr; }
   .rejilla-perfil { grid-template-columns: 1fr; }
