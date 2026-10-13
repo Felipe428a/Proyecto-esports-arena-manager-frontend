@@ -1,56 +1,94 @@
-# eSports Arena Manager — Frontend (EP1)
-## Integrantes
+# eSports Arena Manager — Frontend (React)
 
-- Sebastian Cortes / seb.cortesg@duocuc.cl
-- Felipe Vargas   / fe.vargasi@duocuc.cl
+Aplicación web desarrollada en **React 19** con **Vite**, basada en la guía oficial del curso (`guia_react.pdf`). Cuenta con arquitectura por componentes, estado reactivo mediante Hooks (`useState`, `useEffect`, Context API), funciones de lógica pura desacopladas y suite de pruebas unitarias con **Jasmine** y **Karma**.
 
-## Cómo ejecutar el proyecto
-El proyecto es 100 % estático y no requiere instalación de dependencias.
+---
 
-**abrir directamente**
-Haz doble clic en `index.html` (o ábrelo con "Abrir con → navegador").
+##  Integrantes
 
+- Sebastian Cortes / `seb.cortesg@duocuc.cl`
+- Felipe Vargas / `fe.vargasi@duocuc.cl`
+- Anibal Romero / `ani.romeroc@duocuc.cl`
 
+---
 
-## Estructura de carpetas
+##  Comandos disponibles
 
+En la raíz del proyecto, ejecuta:
+
+| Comando | Descripción |
+| :--- | :--- |
+| `npm install` | Instala todas las dependencias del proyecto. |
+| `npm run dev` | Inicia el servidor de desarrollo local con recarga en caliente (HMR). |
+| `npm run build` | Compila y empaqueta la aplicación optimizada para producción en `dist/`. |
+| `npm run preview` | Sirve localmente la compilación de producción para verificarla. |
+| `npm test` | Ejecuta la suite completa de pruebas unitarias con Jasmine y Karma en modo headless. |
+| `npm run test:watch` | Ejecuta las pruebas en modo observador (re-ejecuta al guardar cambios). |
+
+---
+
+##  Estructura del proyecto
+
+```text
+├── index.html                   Página HTML raíz con <div id="root"></div>
+├── vite.config.js               Configuración del empaquetador Vite con plugin de React
+├── karma.conf.cjs               Configuración del ejecutor Karma con Jasmine y esbuild
+├── package.json                 Scripts y dependencias (React 19, Jasmine, Karma, Vite)
+├── public/
+│   └── assets/                  Recursos multimedia estáticos (video adelanto-esports.mp4)
+├── src/
+│   ├── main.jsx                 Punto de entrada de React con StrictMode y createRoot
+│   ├── App.jsx                  Componente principal y enrutador de vistas
+│   ├── index.css                Estilos globales, variables CSS y diseño "Táctico Rojo"
+│   ├── data/
+│   │   └── datos.js             Datos iniciales (juegos, torneos, equipos, jugadores, partidas)
+│   ├── context/
+│   │   └── AppContext.jsx       Proveedor de estado global y acciones reactivas
+│   ├── logica/                  Funciones puras desacopladas de la interfaz
+│   │   ├── formato.js           Formato de fechas, moneda, cálculos de cupos y efectividad
+│   │   ├── formato.spec.js      Pruebas unitarias de formato y cálculos
+│   │   ├── torneos.js           Filtros avanzados, validación de fechas y cierres
+│   │   ├── torneos.spec.js      Pruebas unitarias de torneos
+│   │   ├── ranking.js           Cálculo de tabla de posiciones por partidas y rondas
+│   │   ├── ranking.spec.js      Pruebas unitarias de ranking
+│   │   ├── inscripcion.js       Reglas de negocio y validación de inscripciones
+│   │   ├── inscripcion.spec.js  Pruebas unitarias de inscripciones
+│   │   ├── equipo.js            Validación de creación de equipos y filtro de disponibles
+│   │   ├── equipo.spec.js       Pruebas unitarias de gestión de equipos
+│   │   ├── perfil.js            Validación de apodo y cálculo de historial
+│   │   └── perfil.spec.js       Pruebas unitarias de perfil
+│   └── components/
+│       ├── layout/
+│       │   ├── Encabezado.jsx   Barra de navegación principal con estado activo
+│       │   └── PiePagina.jsx    Pie de página con enlaces y derechos
+│       ├── torneos/
+│       │   ├── TarjetaTorneo.jsx   Tarjeta interactiva de torneo con barra de progreso
+│       │   ├── BarraCupos.jsx      Barra de cupos ocupados vs disponibles
+│       │   ├── EtiquetaEstado.jsx  Insignia visual del estado del torneo
+│       │   └── EtiquetaEstado.spec.js Pruebas de componente para EtiquetaEstado
+│       ├── ui/
+│       │   ├── MensajeEstado.jsx   Mensajes de estado accesibles (éxito, error, vacío, info)
+│       │   └── MensajeEstado.spec.js Pruebas de componente para MensajeEstado
+│       └── vistas/
+│           ├── Inicio.jsx          Vista 1 · Portada, estadísticas en vivo, destacados y video
+│           ├── Torneos.jsx         Vista 2 · Buscador y filtros de torneos en tiempo real
+│           ├── DetalleTorneo.jsx   Vista 3 · Detalle, inscritos, llaves por ronda y ranking
+│           ├── Inscripcion.jsx     Vista 4 · Formulario controlado de inscripción
+│           ├── Equipo.jsx          Vista 5 · Creación de equipos y administración de integrantes
+│           └── Perfil.jsx          Vista 6 · Ficha competitiva y edición reactiva de apodo
+└── guia_react.pdf               Guía de referencia del curso
 ```
-├── index.html              Vista 1 · Inicio
-├── torneos.html             Vista 2 · Listado de torneos (filtros y buscador)
-├── detalle-torneo.html      Vista 3 · Detalle de torneo (llaves, ranking, premios)
-├── inscripcion.html         Vista 4 · Inscripción a torneo
-├── equipo.html               Vista 5 · Gestión de equipo
-├── perfil.html               Vista 6 · Perfil de jugador
-├── css/
-│   └── estilos.css          Hoja de estilos externa única, con variables de color
-├── assets/
-│   └── adelanto-esports.mp4   Video embebido para reproducirse en la pagina del inicio
-├── js/
-│   ├── datos.js              Arreglos simulados: juegos, torneos, equipos, jugadores…
-│   ├── comun.js              Utilidades compartidas (fechas, mensajes, navegación)
-│   ├── inicio.js
-│   ├── torneos.js
-│   ├── detalle-torneo.js
-│   ├── inscripcion.js
-│   ├── equipo.js
-│   └── perfil.js
-└── README.md
-```
 
-## Notas de la entrega (EP1)
+---
 
-- Todas las vistas están interconectadas por hipervínculos desde un menú de
-  navegación común (`header > nav`).
-- El catálogo de juegos, torneos, equipos, jugadores, inscripciones y partidas se
-  carga desde arreglos JavaScript (`js/datos.js`) y se renderiza con manipulación
-  del DOM; no hay listas escritas a mano en el HTML.
-- Los formularios (filtros de torneos, inscripción, creación de equipo, gestión de
-  integrantes y edición de apodo) validan en el cliente antes de enviar, con
-  mensajes propios junto al campo que falla, y bloquean el envío mientras existan
-  errores.
-- La paleta de color "Táctico rojo" se declara una sola vez como variables CSS en
-  `css/estilos.css` y se referencia desde toda la hoja de estilos.
-- Este entregable corresponde solo al alcance de EP1: no incluye React, Bootstrap,
-  pruebas unitarias (EP2) ni integración con el backend de microservicios vía API
-  REST/JWT (EP3). El backend de referencia (Spring Boot) se entrega aparte y no es
-  necesario para ejecutar este frontend.
+##  Pruebas unitarias
+
+El proyecto cuenta con **43 pruebas unitarias y de componentes** que validan la lógica de negocio y componentes clave:
+
+- Formateo de fechas, moneda y cálculos de rendimiento.
+- Filtrado y búsqueda multicriterio de torneos.
+- Cálculo automático de tablas de posiciones según rondas y marcadores.
+- Validaciones de inscripción (bloqueo por sanciones activas, cupos agotados, fechas vencidas, requisitos mínimos de integrantes).
+- Validación de nombres únicos de equipos y asignación de capitanes.
+- Validación de apodos (longitud, caracteres y espacios).
+- Renderizado y accesibilidad de componentes UI (`MensajeEstado`, `EtiquetaEstado`).
