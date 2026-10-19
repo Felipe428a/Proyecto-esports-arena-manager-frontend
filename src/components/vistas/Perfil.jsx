@@ -49,113 +49,113 @@ export default function Perfil() {
     setNuevoApodo('')
   }
 
+  const dato = (etiqueta, valor) => (
+    <div className="d-flex justify-content-between gap-3 mb-1">
+      <span className="text-secondary">{etiqueta}</span>
+      <span className="text-end">{valor}</span>
+    </div>
+  )
+
   return (
     <main>
       <section>
-        <div className="contenedor">
+        <div className="container">
           <h1>Perfil de jugador</h1>
           <p>Consulta la ficha competitiva de un participante de la arena.</p>
 
-          <div className="campo" style={{ maxWidth: '420px' }}>
-            <label htmlFor="selector-jugador">Jugador</label>
-            <select
-              id="selector-jugador"
-              value={jugadorId}
-              onChange={(e) => {
-                setJugadorId(e.target.value)
-                setErrorApodo('')
-                setMensajeExito('')
-                setNuevoApodo('')
-              }}
-            >
-              {jugadores.map((j) => (
-                <option key={j.id} value={j.id}>
-                  {j.nombre} ({j.apodo})
-                </option>
-              ))}
-            </select>
+          <div className="row mb-4">
+            <div className="col-12 col-md-6 col-lg-4">
+              <label htmlFor="selector-jugador" className="form-label">Jugador</label>
+              <select
+                id="selector-jugador"
+                className="form-select"
+                value={jugadorId}
+                onChange={(e) => {
+                  setJugadorId(e.target.value)
+                  setErrorApodo('')
+                  setMensajeExito('')
+                  setNuevoApodo('')
+                }}
+              >
+                {jugadores.map((j) => (
+                  <option key={j.id} value={j.id}>
+                    {j.nombre} ({j.apodo})
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
 
-          <div id="contenido-perfil" style={{ marginTop: '1.5rem' }}>
+          <div id="contenido-perfil">
             {!jugador ? (
               <MensajeEstado tipo="vacio">
                 No se encontró información para este jugador.
               </MensajeEstado>
             ) : (
               <>
-                <div className="rejilla-perfil">
-                  <div className="tarjeta-info">
-                    <h3>Datos de contacto</h3>
-                    <p className="fila-dato">
-                      <span>Nombre</span>
-                      <span>{jugador.nombre}</span>
-                    </p>
-                    <p className="fila-dato">
-                      <span>Apodo</span>
-                      <span>{jugador.apodo}</span>
-                    </p>
-                    <p className="fila-dato">
-                      <span>Correo</span>
-                      <span>{jugador.email}</span>
-                    </p>
+                <div className="row g-3">
+                  <div className="col-12 col-md-6">
+                    <div className="tarjeta-info card card-body h-100">
+                      <h3>Datos de contacto</h3>
+                      {dato('Nombre', jugador.nombre)}
+                      {dato('Apodo', jugador.apodo)}
+                      {dato('Correo', jugador.email)}
+                    </div>
                   </div>
 
-                  <div className="tarjeta-info">
-                    <h3>Estadísticas</h3>
-                    <p className="fila-dato">
-                      <span>Victorias</span>
-                      <span>{jugador.estadisticas.victorias}</span>
-                    </p>
-                    <p className="fila-dato">
-                      <span>Derrotas</span>
-                      <span>{jugador.estadisticas.derrotas}</span>
-                    </p>
-                    <p className="fila-dato">
-                      <span>Efectividad</span>
-                      <span>{calcularEfectividad(jugador.estadisticas)}%</span>
-                    </p>
+                  <div className="col-12 col-md-6">
+                    <div className="tarjeta-info card card-body h-100">
+                      <h3>Estadísticas</h3>
+                      {dato('Victorias', jugador.estadisticas.victorias)}
+                      {dato('Derrotas', jugador.estadisticas.derrotas)}
+                      {dato('Efectividad', `${calcularEfectividad(jugador.estadisticas)}%`)}
+                    </div>
                   </div>
 
-                  <div className="tarjeta-info">
-                    <h3>Equipos</h3>
-                    {equiposDelJugador.length > 0 ? (
-                      <ul style={{ paddingLeft: '1.1rem', margin: 0 }}>
-                        {equiposDelJugador.map((e) => (
-                          <li key={e.id}>{e.nombre}</li>
+                  <div className="col-12 col-md-6">
+                    <div className="tarjeta-info card card-body h-100">
+                      <h3>Equipos</h3>
+                      {equiposDelJugador.length > 0 ? (
+                        <ul className="mb-0 ps-3">
+                          {equiposDelJugador.map((e) => (
+                            <li key={e.id}>{e.nombre}</li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p className="mb-0">Este jugador aún no integra ningún equipo.</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="col-12 col-md-6">
+                    <div className="tarjeta-info card card-body h-100">
+                      <h3>Sanciones</h3>
+                      <div className="d-flex flex-wrap gap-2">
+                        {sancionesActivas.map((s, idx) => (
+                          <span key={idx} className="badge rounded-pill border border-warning text-warning chip chip--sancion">
+                            {s.motivo} · hasta {formatearFecha(s.fechaFin)}
+                          </span>
                         ))}
-                      </ul>
-                    ) : (
-                      <p style={{ margin: 0 }}>Este jugador aún no integra ningún equipo.</p>
-                    )}
-                  </div>
-
-                  <div className="tarjeta-info">
-                    <h3>Sanciones</h3>
-                    {sancionesActivas.length > 0 &&
-                      sancionesActivas.map((s, idx) => (
-                        <span key={idx} className="chip chip--sancion">
-                          {s.motivo} · hasta {formatearFecha(s.fechaFin)}
-                        </span>
-                      ))}
-                    {sancionesCumplidas.length > 0 &&
-                      sancionesCumplidas.map((s, idx) => (
-                        <span key={idx} className="chip chip--cumplida">
-                          {s.motivo} (cumplida)
-                        </span>
-                      ))}
-                    {jugador.sanciones.length === 0 && (
-                      <p style={{ margin: 0 }}>Sin sanciones registradas.</p>
-                    )}
+                        {sancionesCumplidas.map((s, idx) => (
+                          <span key={idx} className="badge rounded-pill border border-secondary text-secondary chip chip--cumplida">
+                            {s.motivo} (cumplida)
+                          </span>
+                        ))}
+                      </div>
+                      {jugador.sanciones.length === 0 && (
+                        <p className="mb-0">Sin sanciones registradas.</p>
+                      )}
+                    </div>
                   </div>
                 </div>
 
-                <h3 style={{ marginTop: '1.5rem' }}>Historial de torneos</h3>
+                <h3 className="mt-4">Historial de torneos</h3>
                 {historial.length > 0 ? (
-                  <ul style={{ paddingLeft: '1.1rem' }}>
+                  <ul className="list-group list-group-flush mb-0">
                     {historial.map((i) => {
                       const torneo = torneos.find((t) => t.id === i.torneoId)
                       return (
-                        <li key={i.id}>
+                        <li key={i.id} className="list-group-item bg-transparent text-reset">
                           {torneo ? torneo.nombre : 'Torneo no disponible'} — inscrito el{' '}
                           {formatearFecha(i.fecha)} ({i.participanteTipo === 'equipo' ? 'Equipo' : 'Individual'})
                         </li>
@@ -163,51 +163,56 @@ export default function Perfil() {
                     })}
                   </ul>
                 ) : (
-                  <p className="mensaje-estado mensaje-estado--vacio">
+                  <div className="alert alert-secondary mensaje-estado mensaje-estado--vacio">
                     Este jugador aún no participa en ningún torneo.
-                  </p>
+                  </div>
                 )}
               </>
             )}
           </div>
 
-          <h2 style={{ marginTop: '2.5rem' }}>Editar apodo</h2>
-          <form id="formulario-apodo" className="formulario" onSubmit={handleGuardarApodo} noValidate>
-            <div className="campo">
-              <label htmlFor="campo-apodo">Nuevo apodo</label>
-              <input
-                type="text"
-                id="campo-apodo"
-                name="apodo"
-                autoComplete="nickname"
-                maxLength={16}
-                placeholder="Ej: camro"
-                value={nuevoApodo}
-                onChange={(e) => {
-                  setNuevoApodo(e.target.value)
-                  setErrorApodo('')
-                  setMensajeExito('')
-                }}
-                aria-invalid={errorApodo ? 'true' : 'false'}
-              />
-              <span className="ayuda">Sin espacios, entre 3 y 16 caracteres.</span>
-              {errorApodo && (
-                <span id="error-campo-apodo" className="mensaje-error" role="alert">
-                  {errorApodo}
-                </span>
-              )}
+          <div className="row mt-5">
+            <div className="col-12 col-lg-6">
+              <h2>Editar apodo</h2>
+              <form id="formulario-apodo" className="row g-3" onSubmit={handleGuardarApodo} noValidate>
+                <div className="col-12">
+                  <label htmlFor="campo-apodo" className="form-label">Nuevo apodo</label>
+                  <input
+                    type="text"
+                    id="campo-apodo"
+                    name="apodo"
+                    className={`form-control ${errorApodo ? 'is-invalid' : ''}`}
+                    autoComplete="nickname"
+                    maxLength={16}
+                    placeholder="Ej: camro"
+                    value={nuevoApodo}
+                    onChange={(e) => {
+                      setNuevoApodo(e.target.value)
+                      setErrorApodo('')
+                      setMensajeExito('')
+                    }}
+                    aria-invalid={errorApodo ? 'true' : 'false'}
+                  />
+                  <div className="form-text">Sin espacios, entre 3 y 16 caracteres.</div>
+                  {errorApodo && (
+                    <div id="error-campo-apodo" className="invalid-feedback d-block" role="alert">
+                      {errorApodo}
+                    </div>
+                  )}
+                </div>
+                {mensajeExito && (
+                  <div className="col-12">
+                    <MensajeEstado tipo="exito">{mensajeExito}</MensajeEstado>
+                  </div>
+                )}
+                <div className="col-12">
+                  <button type="submit" className="boton boton-primario btn">
+                    Guardar apodo
+                  </button>
+                </div>
+              </form>
             </div>
-            {mensajeExito && (
-              <MensajeEstado tipo="exito">
-                {mensajeExito}
-              </MensajeEstado>
-            )}
-            <div className="acciones-formulario">
-              <button type="submit" className="boton boton-primario">
-                Guardar apodo
-              </button>
-            </div>
-          </form>
+          </div>
         </div>
       </section>
     </main>
