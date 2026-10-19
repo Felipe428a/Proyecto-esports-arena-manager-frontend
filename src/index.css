@@ -671,3 +671,17 @@ section + section {
     align-items: flex-start;
   }
 }
+
+
+/* Bootstrap con la paleta Táctico Rojo */
+.navbar-brand.marca { font-family: var(--fuente-titulos); font-size: 1.5rem; color: #fff; }
+.navbar-brand.marca span { color: var(--color-primario); }
+.navbar-toggler { border-color: var(--color-superficie-alta); }
+.navbar-nav .nav-link { background: none; border: 0; color: var(--color-texto); }
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active { color: var(--color-primario); }
+.form-control, .form-select { background-color: var(--color-fondo); border-color: var(--color-superficie-alta); color: var(--color-texto); }
+.form-control:focus, .form-select:focus { border-color: var(--color-primario); box-shadow: 0 0 0 0.2rem rgba(255, 70, 85, 0.25); }
+.progress { height: 6px; background-color: var(--color-superficie-alta); }
+.progress-bar { background-color: var(--color-primario); }
+.card { --bs-card-bg: var(--color-superficie); --bs-card-border-color: var(--color-superficie-alta); }
