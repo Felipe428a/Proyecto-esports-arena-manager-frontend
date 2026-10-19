@@ -11,6 +11,7 @@
     "test:watch": "karma start karma.conf.cjs --no-single-run --auto-watch"
   },
   "dependencies": {
+    "bootstrap": "^5.3.8",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
