@@ -108,183 +108,183 @@ export default function Inscripcion() {
     ? Math.max(0, torneoSeleccionado.cupoMax - torneoSeleccionado.cupoOcupado)
     : 0
 
+  const mensajeError = (id, texto) =>
+    texto && (
+      <div id={id} className="invalid-feedback d-block" role="alert">
+        {texto}
+      </div>
+    )
+
   return (
     <main>
       <section>
-        <div className="contenedor">
+        <div className="container">
           <h1>Inscripción a torneo</h1>
           <p>Registra la participación de un jugador o de un equipo completo en el torneo elegido.</p>
 
-          <form id="formulario-inscripcion" className="formulario" onSubmit={handleSubmit} noValidate>
-            <div className="campo">
-              <label htmlFor="campo-torneo">Torneo</label>
-              <select
-                id="campo-torneo"
-                name="torneo"
-                value={torneoId}
-                onChange={(e) => {
-                  setTorneoId(e.target.value)
-                  setConfirmacion(null)
-                  setErrorGeneral('')
-                  setErrores({})
-                }}
-              >
-                {torneos.map((t) => {
-                  const estado = obtenerEstadoTorneoInfo(t.estado)
-                  return (
-                    <option key={t.id} value={t.id}>
-                      {t.nombre} ({estado.etiqueta})
-                    </option>
-                  )
-                })}
-              </select>
-              {errores['campo-torneo'] && (
-                <span id="error-campo-torneo" className="mensaje-error" role="alert">
-                  {errores['campo-torneo']}
-                </span>
-              )}
-            </div>
-
-            <fieldset className="campo" style={{ border: 'none', padding: 0, margin: 0 }}>
-              <legend style={{ fontWeight: 600, marginBottom: '0.3rem' }}>
-                Tipo de participante
-              </legend>
-              <div className="fila-radios">
-                <label>
-                  <input
-                    type="radio"
-                    name="tipoParticipante"
-                    value="jugador"
-                    checked={tipoParticipante === 'jugador'}
-                    onChange={() => {
-                      setTipoParticipante('jugador')
+          <div className="row">
+            <div className="col-12 col-lg-8 col-xl-6">
+              <form id="formulario-inscripcion" className="row g-3" onSubmit={handleSubmit} noValidate>
+                <div className="col-12">
+                  <label htmlFor="campo-torneo" className="form-label">Torneo</label>
+                  <select
+                    id="campo-torneo"
+                    name="torneo"
+                    className="form-select"
+                    value={torneoId}
+                    onChange={(e) => {
+                      setTorneoId(e.target.value)
                       setConfirmacion(null)
                       setErrorGeneral('')
+                      setErrores({})
                     }}
-                  />
-                  Jugador individual
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="tipoParticipante"
-                    value="equipo"
-                    checked={tipoParticipante === 'equipo'}
-                    onChange={() => {
-                      setTipoParticipante('equipo')
-                      setConfirmacion(null)
-                      setErrorGeneral('')
-                    }}
-                  />
-                  Equipo
-                </label>
-              </div>
-            </fieldset>
+                  >
+                    {torneos.map((t) => {
+                      const estado = obtenerEstadoTorneoInfo(t.estado)
+                      return (
+                        <option key={t.id} value={t.id}>
+                          {t.nombre} ({estado.etiqueta})
+                        </option>
+                      )
+                    })}
+                  </select>
+                  {mensajeError('error-campo-torneo', errores['campo-torneo'])}
+                </div>
 
-            {tipoParticipante === 'jugador' ? (
-              <div className="campo">
-                <label htmlFor="campo-jugador">Jugador que se inscribe</label>
-                <select
-                  id="campo-jugador"
-                  name="jugador"
-                  value={jugadorId}
-                  onChange={(e) => {
-                    setJugadorId(e.target.value)
-                    setConfirmacion(null)
-                    setErrorGeneral('')
-                  }}
-                >
-                  {jugadores.map((j) => (
-                    <option key={j.id} value={j.id}>
-                      {j.nombre} ({j.apodo})
-                    </option>
-                  ))}
-                </select>
-                <span className="ayuda">
-                  Simula la sesión activa mientras el sistema opera en modo frontend.
-                </span>
-                {errores['campo-jugador'] && (
-                  <span id="error-campo-jugador" className="mensaje-error" role="alert">
-                    {errores['campo-jugador']}
-                  </span>
-                )}
-              </div>
-            ) : (
-              <div className="campo" id="contenedor-equipo">
-                <label htmlFor="campo-equipo">Selecciona tu equipo</label>
-                <select
-                  id="campo-equipo"
-                  name="equipo"
-                  value={equipoId}
-                  onChange={(e) => {
-                    setEquipoId(e.target.value)
-                    setConfirmacion(null)
-                    setErrorGeneral('')
-                  }}
-                >
-                  {equipos.map((e) => (
-                    <option key={e.id} value={e.id}>
-                      {e.nombre}
-                      {e.activo ? '' : ' (inactivo)'}
-                    </option>
-                  ))}
-                </select>
-                {errores['campo-equipo'] && (
-                  <span id="error-campo-equipo" className="mensaje-error" role="alert">
-                    {errores['campo-equipo']}
-                  </span>
-                )}
-              </div>
-            )}
+                <fieldset className="col-12">
+                  <legend className="form-label fs-6 fw-semibold">Tipo de participante</legend>
+                  <div className="form-check form-check-inline">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      id="tipo-jugador"
+                      name="tipoParticipante"
+                      value="jugador"
+                      checked={tipoParticipante === 'jugador'}
+                      onChange={() => {
+                        setTipoParticipante('jugador')
+                        setConfirmacion(null)
+                        setErrorGeneral('')
+                      }}
+                    />
+                    <label className="form-check-label" htmlFor="tipo-jugador">Jugador individual</label>
+                  </div>
+                  <div className="form-check form-check-inline">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      id="tipo-equipo"
+                      name="tipoParticipante"
+                      value="equipo"
+                      checked={tipoParticipante === 'equipo'}
+                      onChange={() => {
+                        setTipoParticipante('equipo')
+                        setConfirmacion(null)
+                        setErrorGeneral('')
+                      }}
+                    />
+                    <label className="form-check-label" htmlFor="tipo-equipo">Equipo</label>
+                  </div>
+                </fieldset>
 
-            {/* Resumen de requisitos */}
-            <div id="resumen-requisitos" className="mensaje-estado mensaje-estado--info" aria-live="polite">
-              {torneoSeleccionado ? (
-                <>
-                  <strong>{torneoSeleccionado.nombre}</strong> ·{' '}
-                  {juegoSeleccionado ? juegoSeleccionado.nombre : ''}
+                {tipoParticipante === 'jugador' ? (
+                  <div className="col-12">
+                    <label htmlFor="campo-jugador" className="form-label">Jugador que se inscribe</label>
+                    <select
+                      id="campo-jugador"
+                      name="jugador"
+                      className="form-select"
+                      value={jugadorId}
+                      onChange={(e) => {
+                        setJugadorId(e.target.value)
+                        setConfirmacion(null)
+                        setErrorGeneral('')
+                      }}
+                    >
+                      {jugadores.map((j) => (
+                        <option key={j.id} value={j.id}>
+                          {j.nombre} ({j.apodo})
+                        </option>
+                      ))}
+                    </select>
+                    <div className="form-text">
+                      Simula la sesión activa mientras el sistema opera en modo frontend.
+                    </div>
+                    {mensajeError('error-campo-jugador', errores['campo-jugador'])}
+                  </div>
+                ) : (
+                  <div className="col-12" id="contenedor-equipo">
+                    <label htmlFor="campo-equipo" className="form-label">Selecciona tu equipo</label>
+                    <select
+                      id="campo-equipo"
+                      name="equipo"
+                      className="form-select"
+                      value={equipoId}
+                      onChange={(e) => {
+                        setEquipoId(e.target.value)
+                        setConfirmacion(null)
+                        setErrorGeneral('')
+                      }}
+                    >
+                      {equipos.map((e) => (
+                        <option key={e.id} value={e.id}>
+                          {e.nombre}
+                          {e.activo ? '' : ' (inactivo)'}
+                        </option>
+                      ))}
+                    </select>
+                    {mensajeError('error-campo-equipo', errores['campo-equipo'])}
+                  </div>
+                )}
+
+                <div className="col-12">
+                  <div id="resumen-requisitos" className="alert alert-info mb-0" aria-live="polite">
+                    {torneoSeleccionado ? (
+                      <>
+                        <strong>{torneoSeleccionado.nombre}</strong> ·{' '}
+                        {juegoSeleccionado ? juegoSeleccionado.nombre : ''}
+                        <br />
+                        Cupos disponibles: {cuposDisponibles} de {torneoSeleccionado.cupoMax}
+                        <br />
+                        Cierre de inscripción: {formatearFecha(torneoSeleccionado.fechaCierreInscripcion)}
+                        <br />
+                        {juegoSeleccionado && juegoSeleccionado.modalidad === 'Equipos'
+                          ? `Integrantes exigidos por equipo: ${juegoSeleccionado.integrantesPorEquipo}`
+                          : 'Modalidad individual'}
+                      </>
+                    ) : (
+                      'Elige un torneo para ver sus requisitos.'
+                    )}
+                  </div>
+                </div>
+
+                {errorGeneral && (
+                  <div className="col-12">
+                    <div id="error-general" className="alert alert-danger mb-0" role="alert">
+                      {errorGeneral}
+                    </div>
+                  </div>
+                )}
+
+                <div className="col-12">
+                  <button type="submit" id="boton-inscribir" className="boton boton-primario btn">
+                    Confirmar inscripción
+                  </button>
+                </div>
+              </form>
+
+              {confirmacion && (
+                <div id="confirmacion" className="alert alert-success mt-4" aria-live="polite">
+                  <strong>Inscripción confirmada.</strong>
                   <br />
-                  Cupos disponibles: {cuposDisponibles} de {torneoSeleccionado.cupoMax}
+                  {confirmacion.nombreParticipante} quedó inscrito/a en{' '}
+                  <strong>{confirmacion.nombreTorneo}</strong>.
                   <br />
-                  Cierre de inscripción: {formatearFecha(torneoSeleccionado.fechaCierreInscripcion)}
-                  <br />
-                  {juegoSeleccionado && juegoSeleccionado.modalidad === 'Equipos'
-                    ? `Integrantes exigidos por equipo: ${juegoSeleccionado.integrantesPorEquipo}`
-                    : 'Modalidad individual'}
-                </>
-              ) : (
-                'Elige un torneo para ver sus requisitos.'
+                  Cupos restantes: {confirmacion.cuposRestantes} de {confirmacion.cupoMax}.
+                </div>
               )}
             </div>
-
-            {errorGeneral && (
-              <span id="error-general" className="mensaje-error" role="alert">
-                {errorGeneral}
-              </span>
-            )}
-
-            <div className="acciones-formulario">
-              <button type="submit" id="boton-inscribir" className="boton boton-primario">
-                Confirmar inscripción
-              </button>
-            </div>
-          </form>
-
-          {confirmacion && (
-            <div
-              id="confirmacion"
-              className="mensaje-estado mensaje-estado--exito"
-              style={{ marginTop: '1.5rem' }}
-              aria-live="polite"
-            >
-              <strong>Inscripción confirmada.</strong>
-              <br />
-              {confirmacion.nombreParticipante} quedó inscrito/a en{' '}
-              <strong>{confirmacion.nombreTorneo}</strong>.
-              <br />
-              Cupos restantes: {confirmacion.cuposRestantes} de {confirmacion.cupoMax}.
-            </div>
-          )}
+          </div>
         </div>
       </section>
     </main>
