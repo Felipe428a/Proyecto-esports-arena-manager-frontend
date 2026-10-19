@@ -1,7 +1,9 @@
+import { useState } from 'react'
 import { useApp } from '../../context/AppContext'
 
 export default function Encabezado() {
   const { vistaActual, navegar } = useApp()
+  const [abierto, setAbierto] = useState(false)
 
   const links = [
     { id: 'inicio', texto: 'Inicio' },
@@ -11,33 +13,44 @@ export default function Encabezado() {
     { id: 'perfil', texto: 'Mi perfil' },
   ]
 
+  const ir = (id) => {
+    navegar(id)
+    setAbierto(false) // cierra el menú en pantallas pequeñas
+  }
+
   return (
     <header className="encabezado">
-      <div className="barra-encabezado contenedor">
-        <button
-          type="button"
-          className="marca"
-          onClick={() => navegar('inicio')}
-        >
+      <nav className="navbar navbar-expand-lg container" aria-label="Navegación principal">
+        <button type="button" className="navbar-brand marca border-0 bg-transparent" onClick={() => ir('inicio')}>
           Arena<span>Manager</span>
         </button>
-        <nav className="nav-principal" aria-label="Navegación principal">
-          <ul>
+        <button
+          type="button"
+          className="navbar-toggler"
+          aria-controls="menu-principal"
+          aria-expanded={abierto}
+          aria-label="Mostrar u ocultar el menú"
+          onClick={() => setAbierto(!abierto)}
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div id="menu-principal" className={`collapse navbar-collapse ${abierto ? 'show' : ''}`}>
+          <ul className="navbar-nav ms-auto">
             {links.map((link) => (
-              <li key={link.id}>
+              <li key={link.id} className="nav-item">
                 <button
                   type="button"
-                  className={vistaActual === link.id ? 'nav-activo' : ''}
+                  className={`nav-link ${vistaActual === link.id ? 'active nav-activo' : ''}`}
                   aria-current={vistaActual === link.id ? 'page' : undefined}
-                  onClick={() => navegar(link.id)}
+                  onClick={() => ir(link.id)}
                 >
                   {link.texto}
                 </button>
               </li>
             ))}
           </ul>
-        </nav>
-      </div>
+        </div>
+      </nav>
     </header>
   )
 }

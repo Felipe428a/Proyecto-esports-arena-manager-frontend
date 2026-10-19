@@ -5,15 +5,15 @@ export default function PiePagina() {
 
   return (
     <footer className="pie-pagina">
-      <div className="pie-cuadro contenedor">
-        <div>
+      <div className="container"><div className="row g-4">
+        <div className="col-12 col-md-6 col-lg-4">
           <h4>eSports Arena Manager</h4>
           <p>
             Plataforma para organizar torneos de videojuegos competitivos:
             inscripciones, partidas, resultados y rankings en un solo lugar.
           </p>
         </div>
-        <div>
+        <div className="col-6 col-lg-4">
           <h4>Navegación</h4>
           <ul>
             <li>
@@ -38,7 +38,7 @@ export default function PiePagina() {
             </li>
           </ul>
         </div>
-        <div>
+        <div className="col-6 col-lg-4">
           <h4>Contacto</h4>
           <ul>
             <li>
@@ -51,6 +51,7 @@ export default function PiePagina() {
               <a href="#reportar">Reportar un problema</a>
             </li>
           </ul>
+        </div>
         </div>
       </div>
       <p className="pie-legal">
