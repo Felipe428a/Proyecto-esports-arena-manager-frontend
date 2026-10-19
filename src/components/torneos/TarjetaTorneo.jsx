@@ -8,7 +8,7 @@ export default function TarjetaTorneo({ torneo, mostrarModalidad = true }) {
   const juego = juegos.find((j) => j.id === torneo.juegoId)
 
   return (
-    <article className="tarjeta-torneo">
+    <article className="tarjeta-torneo card card-body h-100">
       <EtiquetaEstado estado={torneo.estado} />
       <h3>{torneo.nombre}</h3>
       <p className="fila-dato">

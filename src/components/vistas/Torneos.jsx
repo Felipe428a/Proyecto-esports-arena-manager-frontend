@@ -50,123 +50,101 @@ export default function Torneos() {
   return (
     <main>
       <section>
-        <div className="contenedor">
+        <div className="container">
           <h1>Listado de torneos</h1>
           <p>Explora todos los torneos de la temporada y filtra por juego, estado o fecha.</p>
 
-          <form id="formulario-filtros" className="formulario formulario--ancho" onSubmit={handleSubmit} noValidate>
-            <div className="fila-campos">
-              <div className="campo">
-                <label htmlFor="filtro-buscar">Buscar por nombre</label>
-                <input
-                  type="text"
-                  id="filtro-buscar"
-                  name="buscar"
-                  autoComplete="off"
-                  placeholder="Ej: Copa Arena"
-                  value={filtros.buscar}
-                  onChange={handleCambio}
-                />
-                <span className="ayuda">Escribe parte del nombre del torneo.</span>
-              </div>
-
-              <div className="campo">
-                <label htmlFor="filtro-juego">Juego</label>
-                <select
-                  id="filtro-juego"
-                  name="juego"
-                  value={filtros.juego}
-                  onChange={handleCambio}
-                >
-                  <option value="">Todos los juegos</option>
-                  {juegos.map((j) => (
-                    <option key={j.id} value={j.id}>
-                      {j.nombre}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="campo">
-                <label htmlFor="filtro-estado">Estado</label>
-                <select
-                  id="filtro-estado"
-                  name="estado"
-                  value={filtros.estado}
-                  onChange={handleCambio}
-                >
-                  <option value="">Todos los estados</option>
-                  <option value="abierto">Inscripciones abiertas</option>
-                  <option value="en_curso">En curso</option>
-                  <option value="finalizado">Finalizado</option>
-                </select>
-              </div>
+          <form id="formulario-filtros" className="row g-3 mb-4" onSubmit={handleSubmit} noValidate>
+            <div className="col-12 col-md-6 col-lg-4">
+              <label htmlFor="filtro-buscar" className="form-label">Buscar por nombre</label>
+              <input
+                type="text"
+                id="filtro-buscar"
+                name="buscar"
+                className="form-control"
+                autoComplete="off"
+                placeholder="Ej: Copa Arena"
+                value={filtros.buscar}
+                onChange={handleCambio}
+              />
+              <div className="form-text">Escribe parte del nombre del torneo.</div>
             </div>
 
-            <div className="fila-campos">
-              <div className="campo">
-                <label htmlFor="filtro-fecha-desde">Cierre de inscripción desde</label>
-                <input
-                  type="date"
-                  id="filtro-fecha-desde"
-                  name="fechaDesde"
-                  value={filtros.fechaDesde}
-                  onChange={handleCambio}
-                />
-              </div>
-              <div className="campo">
-                <label htmlFor="filtro-fecha-hasta">Cierre de inscripción hasta</label>
-                <input
-                  type="date"
-                  id="filtro-fecha-hasta"
-                  name="fechaHasta"
-                  value={filtros.fechaHasta}
-                  onChange={handleCambio}
-                  aria-invalid={errorFecha ? 'true' : 'false'}
-                />
-                {errorFecha && (
-                  <span id="error-filtro-fecha-hasta" className="mensaje-error" role="alert">
-                    {errorFecha}
-                  </span>
-                )}
-              </div>
+            <div className="col-6 col-lg-4">
+              <label htmlFor="filtro-juego" className="form-label">Juego</label>
+              <select id="filtro-juego" name="juego" className="form-select" value={filtros.juego} onChange={handleCambio}>
+                <option value="">Todos los juegos</option>
+                {juegos.map((j) => (
+                  <option key={j.id} value={j.id}>
+                    {j.nombre}
+                  </option>
+                ))}
+              </select>
             </div>
 
-            <div className="acciones-formulario">
-              <button type="submit" className="boton boton-primario">
+            <div className="col-6 col-lg-4">
+              <label htmlFor="filtro-estado" className="form-label">Estado</label>
+              <select id="filtro-estado" name="estado" className="form-select" value={filtros.estado} onChange={handleCambio}>
+                <option value="">Todos los estados</option>
+                <option value="abierto">Inscripciones abiertas</option>
+                <option value="en_curso">En curso</option>
+                <option value="finalizado">Finalizado</option>
+              </select>
+            </div>
+
+            <div className="col-12 col-md-6">
+              <label htmlFor="filtro-fecha-desde" className="form-label">Cierre de inscripción desde</label>
+              <input type="date" id="filtro-fecha-desde" name="fechaDesde" className="form-control" value={filtros.fechaDesde} onChange={handleCambio} />
+            </div>
+
+            <div className="col-12 col-md-6">
+              <label htmlFor="filtro-fecha-hasta" className="form-label">Cierre de inscripción hasta</label>
+              <input
+                type="date"
+                id="filtro-fecha-hasta"
+                name="fechaHasta"
+                className={`form-control ${errorFecha ? 'is-invalid' : ''}`}
+                value={filtros.fechaHasta}
+                onChange={handleCambio}
+                aria-invalid={errorFecha ? 'true' : 'false'}
+              />
+              {errorFecha && (
+                <div id="error-filtro-fecha-hasta" className="invalid-feedback" role="alert">
+                  {errorFecha}
+                </div>
+              )}
+            </div>
+
+            <div className="col-12 d-flex flex-wrap gap-2">
+              <button type="submit" className="boton boton-primario btn">
                 Aplicar filtros
               </button>
-              <button
-                type="button"
-                id="boton-limpiar"
-                className="boton boton-secundario"
-                onClick={handleLimpiar}
-              >
+              <button type="button" id="boton-limpiar" className="boton boton-secundario btn" onClick={handleLimpiar}>
                 Limpiar
               </button>
             </div>
           </form>
 
           {!errorFecha && (
-            <p
-              id="contador-resultados"
-              aria-live="polite"
-              style={{ color: 'var(--color-texto-tenue)', marginTop: '1.5rem' }}
-            >
+            <p id="contador-resultados" aria-live="polite" className="text-secondary">
               {resultados.length} torneo{resultados.length === 1 ? '' : 's'} encontrado
               {resultados.length === 1 ? '' : 's'}
             </p>
           )}
 
-          <div id="lista-torneos" className="rejilla-tarjetas" aria-live="polite">
+          <div id="lista-torneos" className="row g-4" aria-live="polite">
             {resultados.length === 0 && !errorFecha ? (
-              <MensajeEstado tipo="vacio">
-                Ningún torneo cumple con los filtros seleccionados. Prueba ajustando el juego, el
-                estado o el rango de fechas.
-              </MensajeEstado>
+              <div className="col-12">
+                <MensajeEstado tipo="vacio">
+                  Ningún torneo cumple con los filtros seleccionados. Prueba ajustando el juego, el
+                  estado o el rango de fechas.
+                </MensajeEstado>
+              </div>
             ) : (
               resultados.map((torneo) => (
-                <TarjetaTorneo key={torneo.id} torneo={torneo} mostrarModalidad={true} />
+                <div key={torneo.id} className="col-12 col-md-6 col-lg-4">
+                  <TarjetaTorneo torneo={torneo} mostrarModalidad={true} />
+                </div>
               ))
             )}
           </div>

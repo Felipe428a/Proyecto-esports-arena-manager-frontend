@@ -4,11 +4,11 @@ export default function BarraCupos({ cupoOcupado, cupoMax }) {
   const porcentaje = calcularPorcentajeCupos(cupoOcupado, cupoMax)
   return (
     <div
-      className="barra-cupos"
+      className="barra-cupos progress"
       role="img"
       aria-label={`${porcentaje}% de cupos ocupados`}
     >
-      <span style={{ width: `${porcentaje}%` }}></span>
+      <div className="progress-bar" style={{ width: `${porcentaje}%` }}></div>
     </div>
   )
 }
