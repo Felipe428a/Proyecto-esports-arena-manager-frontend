@@ -1,94 +1,87 @@
 # eSports Arena Manager — Frontend (React)
 
-Aplicación web desarrollada en **React 19** con **Vite**, basada en la guía oficial del curso (`guia_react.pdf`). Cuenta con arquitectura por componentes, estado reactivo mediante Hooks (`useState`, `useEffect`, Context API), funciones de lógica pura desacopladas y suite de pruebas unitarias con **Jasmine** y **Karma**.
+Aplicación web en **React 19 + Vite** con **Bootstrap 5** (diseño responsivo, paleta «Táctico Rojo»),
+enrutamiento con **react-router**, lógica de negocio en funciones puras y pruebas unitarias con
+**Jasmine + Karma** (con reporte de cobertura). Evaluación Parcial 2 — DSY1104 Desarrollo FullStack II.
 
----
+## Integrantes
 
-##  Integrantes
+- Sebastián Cortés — `seb.cortesg@duocuc.cl`
+- Felipe Vargas — `fe.vargasi@duocuc.cl`
+- Aníbal Romero — `ani.romeroc@duocuc.cl`
 
-- Sebastian Cortes / `seb.cortesg@duocuc.cl`
-- Felipe Vargas / `fe.vargasi@duocuc.cl`
-- Anibal Romero / `ani.romeroc@duocuc.cl`
+## Requisitos previos
 
----
+- **Node.js 20.19 o superior** (o 22.12+) — comprobar con `node -v`
+- **Google Chrome** instalado (Karma lo usa para ejecutar las pruebas). Si Karma no lo encuentra,
+  definir la variable `CHROME_BIN` con la ruta del ejecutable.
 
-##  Comandos disponibles
-
-En la raíz del proyecto, ejecuta:
+## Comandos
 
 | Comando | Descripción |
-| :--- | :--- |
-| `npm install` | Instala todas las dependencias del proyecto. |
-| `npm run dev` | Inicia el servidor de desarrollo local con recarga en caliente (HMR). |
-| `npm run build` | Compila y empaqueta la aplicación optimizada para producción en `dist/`. |
-| `npm run preview` | Sirve localmente la compilación de producción para verificarla. |
-| `npm test` | Ejecuta la suite completa de pruebas unitarias con Jasmine y Karma en modo headless. |
-| `npm run test:watch` | Ejecuta las pruebas en modo observador (re-ejecuta al guardar cambios). |
+| :-- | :-- |
+| `npm install` | Instala las dependencias. |
+| `npm run dev` | Servidor de desarrollo con recarga en caliente. |
+| `npm run build` | Genera la versión de producción en `dist/`. |
+| `npm run preview` | Sirve `dist/` localmente. |
+| `npm test` | Corre las pruebas una vez (Jasmine + Karma, Chrome headless). |
+| `npm run test:watch` | Corre las pruebas y queda escuchando cambios. |
+| `npm run test:coverage` | Corre las pruebas y genera la cobertura (`coverage/index.html`). |
 
----
+## Rutas (enrutamiento de cliente con HashRouter)
 
-##  Estructura del proyecto
+`#/inicio` · `#/torneos` · `#/detalle-torneo?id=N` · `#/inscripcion?torneo=N` · `#/equipo` · `#/perfil`
+
+## Arquitectura
 
 ```text
-├── index.html                   Página HTML raíz con <div id="root"></div>
-├── vite.config.js               Configuración del empaquetador Vite con plugin de React
-├── karma.conf.cjs               Configuración del ejecutor Karma con Jasmine y esbuild
-├── package.json                 Scripts y dependencias (React 19, Jasmine, Karma, Vite)
-├── public/
-│   └── assets/                  Recursos multimedia estáticos (video adelanto-esports.mp4)
-├── src/
-│   ├── main.jsx                 Punto de entrada de React con StrictMode y createRoot
-│   ├── App.jsx                  Componente principal y enrutador de vistas
-│   ├── index.css                Estilos globales, variables CSS y diseño "Táctico Rojo"
-│   ├── data/
-│   │   └── datos.js             Datos iniciales (juegos, torneos, equipos, jugadores, partidas)
-│   ├── context/
-│   │   └── AppContext.jsx       Proveedor de estado global y acciones reactivas
-│   ├── logica/                  Funciones puras desacopladas de la interfaz
-│   │   ├── formato.js           Formato de fechas, moneda, cálculos de cupos y efectividad
-│   │   ├── formato.spec.js      Pruebas unitarias de formato y cálculos
-│   │   ├── torneos.js           Filtros avanzados, validación de fechas y cierres
-│   │   ├── torneos.spec.js      Pruebas unitarias de torneos
-│   │   ├── ranking.js           Cálculo de tabla de posiciones por partidas y rondas
-│   │   ├── ranking.spec.js      Pruebas unitarias de ranking
-│   │   ├── inscripcion.js       Reglas de negocio y validación de inscripciones
-│   │   ├── inscripcion.spec.js  Pruebas unitarias de inscripciones
-│   │   ├── equipo.js            Validación de creación de equipos y filtro de disponibles
-│   │   ├── equipo.spec.js       Pruebas unitarias de gestión de equipos
-│   │   ├── perfil.js            Validación de apodo y cálculo de historial
-│   │   └── perfil.spec.js       Pruebas unitarias de perfil
-│   └── components/
-│       ├── layout/
-│       │   ├── Encabezado.jsx   Barra de navegación principal con estado activo
-│       │   └── PiePagina.jsx    Pie de página con enlaces y derechos
-│       ├── torneos/
-│       │   ├── TarjetaTorneo.jsx   Tarjeta interactiva de torneo con barra de progreso
-│       │   ├── BarraCupos.jsx      Barra de cupos ocupados vs disponibles
-│       │   ├── EtiquetaEstado.jsx  Insignia visual del estado del torneo
-│       │   └── EtiquetaEstado.spec.js Pruebas de componente para EtiquetaEstado
-│       ├── ui/
-│       │   ├── MensajeEstado.jsx   Mensajes de estado accesibles (éxito, error, vacío, info)
-│       │   └── MensajeEstado.spec.js Pruebas de componente para MensajeEstado
-│       └── vistas/
-│           ├── Inicio.jsx          Vista 1 · Portada, estadísticas en vivo, destacados y video
-│           ├── Torneos.jsx         Vista 2 · Buscador y filtros de torneos en tiempo real
-│           ├── DetalleTorneo.jsx   Vista 3 · Detalle, inscritos, llaves por ronda y ranking
-│           ├── Inscripcion.jsx     Vista 4 · Formulario controlado de inscripción
-│           ├── Equipo.jsx          Vista 5 · Creación de equipos y administración de integrantes
-│           └── Perfil.jsx          Vista 6 · Ficha competitiva y edición reactiva de apodo
-└── guia_react.pdf               Guía de referencia del curso
+src/
+├── main.jsx                  HashRouter + AppProvider + App
+├── App.jsx                   Encabezado, <Routes> y pie; conecta el enrutador con los componentes
+├── rutas.js                  Rutas y menú centralizados
+├── data/datos.js             Datos de demostración (fechas relativas a hoy)
+├── context/AppContext.jsx    Datos y acciones (sin navegación)
+├── logica/                   Funciones puras (+ .spec.js)
+│   ├── fechas.js             finDelDia (corrige el desfase de zona horaria)
+│   ├── formato.js · torneos.js · ranking.js · inscripcion.js · equipo.js · perfil.js
+├── pruebas/montar.js         Ayudas para probar componentes (montar, clic, escribir, elegir)
+└── components/
+    ├── layout/               Encabezado, PiePagina            (reciben props)
+    ├── torneos/              TarjetaTorneo, BarraCupos, EtiquetaEstado,
+    │                         LlaveTorneo, ListaPartidas, TablaRanking
+    ├── inscripcion/          FormularioInscripcion
+    ├── equipo/               FormularioEquipo, PanelEquipo
+    ├── ui/                   MensajeEstado
+    └── vistas/               Inicio, Torneos, DetalleTorneo, Inscripcion, Equipo, Perfil, NoEncontrada
 ```
 
----
+**Flujo de datos:** solo las *vistas* leen el contexto (`useApp`) y le entregan datos y funciones a
+los *componentes de presentación* por **props**. Los componentes avisan hacia arriba con funciones
+(`onVerDetalle`, `onEnviar`, `onNavegar`...). Por eso se pueden probar sin Provider.
 
-##  Pruebas unitarias
+**Estilos:** Bootstrap (grilla, formularios, botones, navbar) + `index.css` con variables de la
+paleta. El único estilo en línea es el ancho de `BarraCupos` (valor calculado en ejecución).
 
-El proyecto cuenta con **43 pruebas unitarias y de componentes** que validan la lógica de negocio y componentes clave:
+## Pruebas
 
-- Formateo de fechas, moneda y cálculos de rendimiento.
-- Filtrado y búsqueda multicriterio de torneos.
-- Cálculo automático de tablas de posiciones según rondas y marcadores.
-- Validaciones de inscripción (bloqueo por sanciones activas, cupos agotados, fechas vencidas, requisitos mínimos de integrantes).
-- Validación de nombres únicos de equipos y asignación de capitanes.
-- Validación de apodos (longitud, caracteres y espacios).
-- Renderizado y accesibilidad de componentes UI (`MensajeEstado`, `EtiquetaEstado`).
+Las 10 pruebas obligatorias del caso están cubiertas:
+
+| # | Prueba | Archivo |
+| :-- | :-- | :-- |
+| 1 | `ordenarRanking` (puntos, desempate por diferencia) | `logica/ranking.spec.js` |
+| 2 | `calcularPuntos` | `logica/ranking.spec.js` |
+| 3 | `cuposDisponibles` | `logica/torneos.spec.js` |
+| 4 | `inscripcionFueraDePlazo` | `logica/inscripcion.spec.js` |
+| 5 | `tieneSancionActiva` | `logica/inscripcion.spec.js` |
+| 6 | `equipoCompleto` | `logica/inscripcion.spec.js` |
+| 7 | `TarjetaTorneo` (nombre, juego, estado) | `components/torneos/TarjetaTorneo.spec.js` |
+| 8 | `TablaRanking` | `components/torneos/TablaRanking.spec.js` |
+| 9 | `FormularioInscripcion` (espía + envío deshabilitado) | `components/inscripcion/FormularioInscripcion.spec.js` |
+| 10 | `LlaveTorneo` con «Por definir» | `components/torneos/LlaveTorneo.spec.js` |
+
+Además hay pruebas de integración de las seis vistas y la navegación (`src/App.spec.js`).
+**Mocks:** espías con `jasmine.createSpy` (callbacks de componentes) y reloj simulado con
+`jasmine.clock().mockDate()` (plazos de inscripción). Informe de cobertura: `docs/COBERTURA_TESTING.md`.
+
+> Convención: las pruebas de componentes se llaman `*.spec.js` (no `.jsx`), porque karma-esbuild no
+> resuelve bien los `.spec.jsx`; el JSX funciona igual dentro de `.js`.
