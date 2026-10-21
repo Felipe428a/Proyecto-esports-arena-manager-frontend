@@ -4,6 +4,7 @@ import {
   filtrarTorneos,
   obtenerTorneosDestacados,
   obtenerProximosCierres,
+  cuposDisponibles,
 } from './torneos'
 
 describe('Módulo de torneos', () => {
@@ -83,6 +84,25 @@ describe('Módulo de torneos', () => {
       const cierres = obtenerProximosCierres(torneosPrueba, 1)
       expect(cierres.length).toBe(1)
       expect(cierres[0].id).toBe(4) // 2026-09-05 es antes de 2026-09-15
+    })
+  })
+
+  describe('cuposDisponibles', () => {
+    it('resta los cupos ocupados del máximo', () => {
+      expect(cuposDisponibles({ cupoMax: 8, cupoOcupado: 5 })).toBe(3)
+    })
+
+    it('devuelve 0 cuando el torneo está lleno', () => {
+      expect(cuposDisponibles({ cupoMax: 6, cupoOcupado: 6 })).toBe(0)
+    })
+
+    it('nunca devuelve un número negativo', () => {
+      expect(cuposDisponibles({ cupoMax: 4, cupoOcupado: 7 })).toBe(0)
+    })
+
+    it('devuelve 0 si no hay torneo', () => {
+      expect(cuposDisponibles(null)).toBe(0)
+      expect(cuposDisponibles(undefined)).toBe(0)
     })
   })
 })

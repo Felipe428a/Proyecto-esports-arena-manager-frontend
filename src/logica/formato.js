@@ -2,13 +2,17 @@
  * Funciones puras de formateo y cálculos generales.
  */
 
+import { esSoloFecha } from './fechas'
+
 export function formatearFecha(iso, conHora = false) {
   if (!iso) return 'Sin definir'
   const fecha = new Date(iso)
   if (isNaN(fecha.getTime())) return 'Fecha inválida'
-  const opciones = { day: '2-digit', month: 'long', year: 'numeric', timeZone: 'UTC' }
+  const opciones = { day: '2-digit', month: 'long', year: 'numeric' }
+  if (esSoloFecha(iso)) opciones.timeZone = 'UTC'
   if (conHora) {
     opciones.hour = '2-digit'
+    opciones.hour12 = false
     opciones.minute = '2-digit'
   }
   return fecha.toLocaleDateString('es-CL', opciones)

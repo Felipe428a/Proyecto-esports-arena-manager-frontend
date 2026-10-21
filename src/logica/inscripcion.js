@@ -2,25 +2,45 @@
  * Validación y lógica de inscripción de participantes a torneos.
  */
 
+import { finDelDia } from './fechas'
+import { cuposDisponibles } from './torneos'
+
 export function yaEstaInscrito(torneoId, tipo, participanteId, inscripciones = []) {
   return inscripciones.some(
-    (i) =>
-      i.torneoId === Number(torneoId) &&
-      i.participanteTipo === tipo &&
-      i.participanteId === Number(participanteId)
+      (i) =>
+          i.torneoId === Number(torneoId) &&
+          i.participanteTipo === tipo &&
+          i.participanteId === Number(participanteId)
   )
 }
 
-export function tieneSancionActiva(jugador) {
-  if (!jugador || !Array.isArray(jugador.sanciones)) return false
-  return jugador.sanciones.some((s) => s.activa)
+export function inscripcionFueraDePlazo(torneo, fechaActual = new Date()) {
+  if (!torneo || !torneo.fechaCierreInscripcion) return false
+  return fechaActual > finDelDia(torneo.fechaCierreInscripcion)
 }
 
-export function equipoTieneSancionActiva(equipo, todosJugadores = []) {
+export function equipoCompleto(equipo, juego) {
+  if (!equipo || !Array.isArray(equipo.integrantes)) return false
+  if (!juego || juego.modalidad !== 'Equipos') return true
+  return equipo.integrantes.length >= juego.integrantesPorEquipo
+}
+
+export function sancionVigente(sancion, fechaActual = new Date()) {
+  if (!sancion || !sancion.activa) return false
+  if (!sancion.fechaFin) return true
+  return fechaActual <= finDelDia(sancion.fechaFin)
+}
+
+export function tieneSancionActiva(jugador, fechaActual = new Date()) {
+  if (!jugador || !Array.isArray(jugador.sanciones)) return false
+  return jugador.sanciones.some((s) => sancionVigente(s, fechaActual))
+}
+
+export function equipoTieneSancionActiva(equipo, todosJugadores = [], fechaActual = new Date()) {
   if (!equipo || !Array.isArray(equipo.integrantes)) return false
   return equipo.integrantes.some((integrante) => {
     const jugador = todosJugadores.find((j) => j.id === integrante.jugadorId)
-    return tieneSancionActiva(jugador)
+    return tieneSancionActiva(jugador, fechaActual)
   })
 }
 
@@ -38,14 +58,11 @@ export function validarInscripcion({
     return { valido: false, campo: 'campo-torneo', mensaje: 'Selecciona un torneo válido.' }
   }
 
-  const fechaCierre = new Date(torneo.fechaCierreInscripcion)
-  // Establecer fin del día para la fecha de cierre si sólo es string YYYY-MM-DD
-  fechaCierre.setHours(23, 59, 59, 999)
-  if (fechaActual > fechaCierre) {
+  if (inscripcionFueraDePlazo(torneo, fechaActual)) {
     return { valido: false, general: 'El plazo de inscripción para este torneo ya cerró.' }
   }
 
-  if (torneo.cupoOcupado >= torneo.cupoMax) {
+  if (cuposDisponibles(torneo) === 0) {
     return { valido: false, general: 'Este torneo alcanzó su cupo máximo de inscripciones.' }
   }
 
@@ -67,7 +84,7 @@ export function validarInscripcion({
       return { valido: false, general: 'Este jugador ya está inscrito en este torneo.' }
     }
 
-    if (tieneSancionActiva(jugador)) {
+    if (tieneSancionActiva(jugador, fechaActual)) {
       return {
         valido: false,
         general: 'Este jugador tiene una sanción vigente y no puede inscribirse hasta que se cumpla.',
@@ -88,7 +105,7 @@ export function validarInscripcion({
   }
 
   const juego = juegos.find((j) => j.id === torneo.juegoId)
-  if (juego && juego.modalidad === 'Equipos' && equipo.integrantes.length < juego.integrantesPorEquipo) {
+  if (!equipoCompleto(equipo, juego)) {
     return {
       valido: false,
       campo: 'campo-equipo',
@@ -100,7 +117,7 @@ export function validarInscripcion({
     return { valido: false, general: 'Este equipo ya está inscrito en este torneo.' }
   }
 
-  if (equipoTieneSancionActiva(equipo, todosJugadores)) {
+  if (equipoTieneSancionActiva(equipo, todosJugadores, fechaActual)) {
     return {
       valido: false,
       general: 'Un integrante del equipo tiene una sanción vigente y bloquea la inscripción del equipo.',

@@ -1,7 +1,10 @@
 // Configuración de Karma según Guía de React (Sección 20)
-process.env.CHROME_BIN = process.env.CHROME_BIN || 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
+
+const istanbulPlugin = require('./karma/esbuild-istanbul.cjs')
 
 module.exports = function (config) {
+  const conCobertura = Boolean(config.coverage)
+
   config.set({
     // Carpeta base desde donde se resuelven las rutas
     basePath: '',
@@ -19,12 +22,28 @@ module.exports = function (config) {
       target: 'es2022',
       jsx: 'automatic', // permite escribir JSX sin importar React
       loader: { '.js': 'jsx' },
+      // Vite define import.meta.env; en las pruebas (sin Vite) se entrega un valor fijo
+      define: { 'import.meta.env': '{"BASE_URL":"/"}' },
+      // Solo al pedir cobertura se instrumenta el código de src/
+      plugins: conCobertura ? [istanbulPlugin()] : [],
     },
 
     // Cómo se muestran los resultados en la terminal
-    reporters: ['progress'],
+    reporters: conCobertura ? ['progress', 'coverage'] : ['progress'],
 
-    // Navegador donde corren las pruebas
+    // Reporte de cobertura: tabla por archivo en la terminal + HTML navegable en coverage/
+    coverageReporter: {
+      dir: 'coverage',
+      subdir: '.',
+      reporters: [
+        { type: 'text' },
+        { type: 'text-summary' },
+        { type: 'html' },
+        { type: 'lcovonly' },
+      ],
+    },
+
+    // Navegador donde corren las pruebas (sin ventana)
     browsers: ['ChromeHeadlessNoSandbox'],
 
     customLaunchers: {

@@ -27,9 +27,7 @@
   --espacio-3: 1.75rem;
   --espacio-4: 3rem;
   --sombra-tarjeta: 0 8px 24px rgba(0, 0, 0, 0.35);
-}
-
-/* Reinicio básico */
+}/* Reinicio básico */
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -92,15 +90,7 @@ p {
 :focus-visible {
   outline: 3px solid var(--color-acento);
   outline-offset: 2px;
-}
-
-/* Layout general */
-.contenedor {
-  width: 100%;
-  max-width: var(--ancho-contenido);
-  margin: 0 auto;
-  padding: 0 var(--espacio-3);
-}
+}/* Layout general */
 
 main {
   flex: 1;
@@ -112,24 +102,13 @@ section {
 
 section + section {
   border-top: 1px solid var(--color-superficie);
-}
-
-/* Encabezado y navegación */
+}/* Encabezado y navegación */
 .encabezado {
   background-color: var(--color-superficie);
   border-bottom: 1px solid var(--color-superficie-alta);
   position: sticky;
   top: 0;
   z-index: 10;
-}
-
-.barra-encabezado {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: var(--espacio-2);
-  padding: var(--espacio-2) var(--espacio-3);
 }
 
 .marca {
@@ -148,92 +127,14 @@ section + section {
 
 .marca span {
   color: var(--color-primario);
-}
-
-.nav-principal ul {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--espacio-3);
-  margin: 0;
-  padding: 0;
-}
-
-.nav-principal button,
-.nav-principal a {
-  background: none;
-  border: none;
-  text-decoration: none;
-  color: var(--color-texto-tenue);
-  font-family: var(--fuente-texto);
-  font-size: 1rem;
-  font-weight: 600;
-  padding: 0.35rem 0.1rem;
-  border-bottom: 2px solid transparent;
-  cursor: pointer;
-  transition: color 0.15s ease, border-color 0.15s ease;
-}
-
-.nav-principal button:hover,
-.nav-principal a:hover,
-.nav-principal .nav-activo {
-  color: #ffffff;
-  border-bottom-color: var(--color-primario);
-}
-
-/* Botones */
-.boton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--fuente-titulos);
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  border: none;
-  border-radius: var(--radio-borde);
-  padding: 0.7rem 1.4rem;
-  cursor: pointer;
-  text-decoration: none;
-  transition: transform 0.12s ease, background-color 0.12s ease, opacity 0.12s ease;
-}
-
-.boton-primario {
-  background-color: var(--color-primario);
-  color: var(--color-fondo);
-}
-
-.boton-primario:hover:not(:disabled) {
-  background-color: var(--color-primario-hover);
-  color: #ffffff;
-}
-
-.boton-secundario {
-  background-color: transparent;
-  color: var(--color-acento);
-  border: 1.5px solid var(--color-acento);
-}
-
-.boton-secundario:hover:not(:disabled) {
-  background-color: var(--color-superficie-alta);
-}
-
-.boton-pequeno {
-  padding: 0.4rem 0.8rem;
-  font-size: 0.85rem;
-}
-
-.boton:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
+}/* Botones */
 
 /* Héroe de inicio */
 .heroe {
   padding: var(--espacio-4) 0;
   background:
-    radial-gradient(60% 100% at 85% 0%, rgba(255, 70, 85, 0.18), transparent 60%),
-    var(--color-fondo);
+          radial-gradient(60% 100% at 85% 0%, rgba(255, 70, 85, 0.18), transparent 60%),
+          var(--color-fondo);
 }
 
 .heroe-cuadro {
@@ -271,14 +172,7 @@ section + section {
 .heroe-panel dd {
   margin: 0;
   font-weight: 600;
-}
-
-/* Tarjetas de torneo */
-.rejilla-tarjetas {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: var(--espacio-3);
-}
+}/* Tarjetas de torneo */
 
 .tarjeta-torneo {
   background-color: var(--color-superficie);
@@ -345,13 +239,6 @@ section + section {
   overflow: hidden;
 }
 
-.barra-cupos > span {
-  display: block;
-  height: 100%;
-  background-color: var(--color-primario);
-  transition: width 0.3s ease;
-}
-
 /* Próximos cierres */
 .lista-cierres {
   list-style: none;
@@ -369,9 +256,7 @@ section + section {
   border-left: 3px solid var(--color-primario);
   padding: 0.8rem 1rem;
   border-radius: var(--radio-borde);
-}
-
-/* Video */
+}/* Video */
 .envoltorio-video {
   position: relative;
   width: 100%;
@@ -386,91 +271,7 @@ section + section {
   width: 100%;
   display: block;
   background: #000;
-}
-
-/* Formularios */
-.formulario {
-  background-color: var(--color-superficie);
-  border: 1px solid var(--color-superficie-alta);
-  border-radius: var(--radio-borde);
-  padding: var(--espacio-3);
-  display: grid;
-  gap: var(--espacio-2);
-  max-width: 640px;
-}
-
-.formulario--ancho {
-  max-width: 100%;
-}
-
-.campo {
-  display: grid;
-  gap: 0.3rem;
-}
-
-.campo label {
-  font-weight: 600;
-}
-
-.campo .ayuda {
-  font-size: 0.85rem;
-  color: var(--color-texto-tenue);
-}
-
-.campo input,
-.campo select,
-.campo textarea {
-  background-color: var(--color-fondo);
-  border: 1px solid var(--color-superficie-alta);
-  border-radius: var(--radio-borde);
-  color: var(--color-texto);
-  padding: 0.55rem 0.7rem;
-  font-family: var(--fuente-texto);
-  font-size: 1rem;
-}
-
-.campo input:focus,
-.campo select:focus,
-.campo textarea:focus {
-  border-color: var(--color-primario);
-}
-
-.campo input[aria-invalid="true"],
-.campo select[aria-invalid="true"] {
-  border-color: var(--color-error);
-}
-
-.mensaje-error {
-  color: var(--color-error);
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
-.fila-radios {
-  display: flex;
-  gap: var(--espacio-3);
-  flex-wrap: wrap;
-}
-
-.fila-radios label {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.fila-campos {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: var(--espacio-2);
-}
-
-.acciones-formulario {
-  display: flex;
-  gap: var(--espacio-2);
-  flex-wrap: wrap;
-}
+}/* Formularios */
 
 /* Mensajes de estado */
 .mensaje-estado {
@@ -488,9 +289,7 @@ section + section {
 .mensaje-estado--vacio { border-left-color: var(--color-texto-tenue); }
 .mensaje-estado--error { border-left-color: var(--color-error); color: var(--color-error); }
 .mensaje-estado--exito { border-left-color: var(--color-exito); color: var(--color-texto); font-weight: 600; }
-.mensaje-estado--info { border-left-color: var(--color-primario); }
-
-/* Tablas */
+.mensaje-estado--info { border-left-color: var(--color-primario); }/* Tablas */
 .tabla-datos {
   width: 100%;
   border-collapse: collapse;
@@ -520,9 +319,7 @@ section + section {
 .tabla-datos .posicion-1 {
   color: var(--color-primario);
   font-weight: 700;
-}
-
-/* Llaves y rondas */
+}/* Llaves y rondas */
 .selector-rondas {
   display: flex;
   gap: 0.5rem;
@@ -558,14 +355,7 @@ section + section {
 .enfrentamiento .marcador {
   color: var(--color-primario);
   padding: 0 0.4rem;
-}
-
-/* Perfil */
-.rejilla-perfil {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--espacio-3);
-}
+}/* Perfil */
 
 .tarjeta-info {
   background-color: var(--color-superficie);
@@ -593,20 +383,11 @@ section + section {
   color: var(--color-texto-tenue);
   border: 1px solid var(--color-texto-tenue);
   background: transparent;
-}
-
-/* Pie de página */
+}/* Pie de página */
 .pie-pagina {
   background-color: var(--color-superficie);
   border-top: 1px solid var(--color-superficie-alta);
   margin-top: var(--espacio-4);
-}
-
-.pie-cuadro {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--espacio-3);
-  padding: var(--espacio-4) var(--espacio-3) var(--espacio-2);
 }
 
 .pie-pagina h4 {
@@ -646,9 +427,7 @@ section + section {
   color: var(--color-texto-tenue);
   padding: var(--espacio-2) var(--espacio-3) var(--espacio-3);
   border-top: 1px solid var(--color-superficie-alta);
-}
-
-/* Utilidades */
+}/* Utilidades */
 .oculto-visualmente {
   position: absolute;
   width: 1px;
@@ -656,24 +435,14 @@ section + section {
   overflow: hidden;
   clip: rect(0 0 0 0);
   white-space: nowrap;
-}
-
-/* Ajustes responsivos */
+}/* Ajustes responsivos */
 @media (max-width: 800px) {
   .heroe-cuadro {
     grid-template-columns: 1fr;
   }
-  .rejilla-perfil {
-    grid-template-columns: 1fr;
-  }
-  .barra-encabezado {
-    flex-direction: column;
-    align-items: flex-start;
-  }
 }
 
-
-/* Bootstrap con la paleta Táctico Rojo */
+/* ===== Bootstrap con la paleta Táctico Rojo ===== */
 .navbar-brand.marca { font-family: var(--fuente-titulos); font-size: 1.5rem; color: #fff; }
 .navbar-brand.marca span { color: var(--color-primario); }
 .navbar-toggler { border-color: var(--color-superficie-alta); }
@@ -685,3 +454,79 @@ section + section {
 .progress { height: 6px; background-color: var(--color-superficie-alta); }
 .progress-bar { background-color: var(--color-primario); }
 .card { --bs-card-bg: var(--color-superficie); --bs-card-border-color: var(--color-superficie-alta); }
+
+/* Botones: se usan las clases de Bootstrap (.btn .btn-primary .btn-outline-light) y aquí solo
+   se reemplazan sus variables de color. Texto OSCURO sobre el botón rojo, como exige el caso. */
+.btn {
+  font-family: var(--fuente-titulos);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  border-radius: var(--radio-borde);
+}
+
+.btn-primary {
+  --bs-btn-color: var(--color-fondo);
+  --bs-btn-bg: var(--color-primario);
+  --bs-btn-border-color: var(--color-primario);
+  --bs-btn-hover-color: #ffffff;
+  --bs-btn-hover-bg: var(--color-primario-hover);
+  --bs-btn-hover-border-color: var(--color-primario-hover);
+  --bs-btn-active-color: #ffffff;
+  --bs-btn-active-bg: var(--color-primario-hover);
+  --bs-btn-active-border-color: var(--color-primario-hover);
+  --bs-btn-disabled-color: var(--color-fondo);
+  --bs-btn-disabled-bg: var(--color-primario);
+  --bs-btn-disabled-border-color: var(--color-primario);
+  --bs-btn-focus-shadow-rgb: 255, 70, 85;
+}
+
+.btn-outline-light {
+  --bs-btn-color: var(--color-acento);
+  --bs-btn-border-color: var(--color-acento);
+  --bs-btn-hover-color: #ffffff;
+  --bs-btn-hover-bg: var(--color-superficie-alta);
+  --bs-btn-hover-border-color: var(--color-acento);
+  --bs-btn-active-color: #ffffff;
+  --bs-btn-active-bg: var(--color-superficie-alta);
+  --bs-btn-active-border-color: var(--color-acento);
+  --bs-btn-disabled-color: var(--color-acento);
+  --bs-btn-disabled-border-color: var(--color-acento);
+}
+
+/* Reemplazan estilos en línea que había en las vistas */
+.enlace-volver {
+  color: var(--color-acento);
+  font-size: 1rem;
+}
+
+.enlace-en-mensaje {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.heroe-panel h2 {
+  border: none;
+  padding: 0;
+}
+
+.panel-estrecho {
+  max-width: 520px;
+}
+
+/* Tablas con desplazamiento horizontal en pantallas angostas */
+.table-responsive {
+  overflow-x: auto;
+}
+
+/* Responsivo: en móvil las filas de partida y los cierres se apilan */
+@media (max-width: 576px) {
+  .lista-cierres li {
+    flex-direction: column;
+  }
+
+  .tarjeta-partida {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

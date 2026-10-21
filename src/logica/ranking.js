@@ -2,20 +2,31 @@
  * Cálculo puro de la tabla de posiciones a partir de partidas.
  */
 
+export const PUNTOS_VICTORIA = 3
+export const PUNTOS_EMPATE = 1
+
+export function calcularPuntos(victorias = 0, empates = 0) {
+  return (Number(victorias) || 0) * PUNTOS_VICTORIA + (Number(empates) || 0) * PUNTOS_EMPATE
+}
+
+/** Ordena filas por puntos (desc), luego diferencia (desc), luego nombre. No modifica el original. */
+export function ordenarRanking(filas) {
+  if (!Array.isArray(filas)) return []
+  return [...filas].sort((a, b) => {
+    if (b.puntos !== a.puntos) return b.puntos - a.puntos
+    if (b.diferencia !== a.diferencia) return b.diferencia - a.diferencia
+    return String(a.nombre).localeCompare(String(b.nombre), 'es')
+  })
+}
+
 export function calcularRanking(partidasTorneo) {
   if (!Array.isArray(partidasTorneo)) return []
 
   const tabla = {}
 
   const asegurarParticipante = (nombre) => {
-    if (!nombre) return null
     if (!tabla[nombre]) {
-      tabla[nombre] = {
-        nombre,
-        victorias: 0,
-        derrotas: 0,
-        diferencia: 0,
-      }
+      tabla[nombre] = { nombre, victorias: 0, empates: 0, derrotas: 0, diferencia: 0, puntos: 0 }
     }
     return tabla[nombre]
   }
@@ -43,13 +54,16 @@ export function calcularRanking(partidasTorneo) {
     } else if (puntajeB > puntajeA) {
       filaB.victorias += 1
       filaA.derrotas += 1
+    } else {
+      filaA.empates += 1
+      filaB.empates += 1
     }
   })
 
-  return Object.values(tabla).sort((a, b) => {
-    if (b.victorias !== a.victorias) {
-      return b.victorias - a.victorias
-    }
-    return b.diferencia - a.diferencia
-  })
+  const filas = Object.values(tabla).map((fila) => ({
+    ...fila,
+    puntos: calcularPuntos(fila.victorias, fila.empates),
+  }))
+
+  return ordenarRanking(filas)
 }

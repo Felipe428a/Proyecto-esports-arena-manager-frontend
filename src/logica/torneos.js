@@ -11,6 +11,12 @@ export function obtenerEstadoTorneoInfo(estado) {
   return mapa[estado] || { etiqueta: estado || 'Desconocido', clase: '' }
 }
 
+/** Cupos libres de un torneo. Nunca es negativo, aunque haya más inscritos que cupos. */
+export function cuposDisponibles(torneo) {
+  if (!torneo) return 0
+  return Math.max(0, (Number(torneo.cupoMax) || 0) - (Number(torneo.cupoOcupado) || 0))
+}
+
 export function validarRangoFechas(fechaDesde, fechaHasta) {
   if (fechaDesde && fechaHasta) {
     if (new Date(fechaDesde) > new Date(fechaHasta)) {
@@ -74,7 +80,7 @@ export function obtenerTorneosDestacados(torneos) {
 export function obtenerProximosCierres(torneos, limite = 4) {
   if (!Array.isArray(torneos)) return []
   return torneos
-    .filter((t) => t.estado === 'abierto')
-    .sort((a, b) => new Date(a.fechaCierreInscripcion) - new Date(b.fechaCierreInscripcion))
-    .slice(0, limite)
+      .filter((t) => t.estado === 'abierto')
+      .sort((a, b) => new Date(a.fechaCierreInscripcion) - new Date(b.fechaCierreInscripcion))
+      .slice(0, limite)
 }

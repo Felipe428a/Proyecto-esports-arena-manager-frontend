@@ -14,7 +14,7 @@ export function validarCreacionEquipo(nombre, juegoId, capitanId, equiposExisten
   }
 
   const yaExiste = equiposExistentes.some(
-    (e) => e.nombre.trim().toLowerCase() === nombreLimpio.toLowerCase()
+      (e) => e.nombre.trim().toLowerCase() === nombreLimpio.toLowerCase()
   )
   if (yaExiste) {
     return {

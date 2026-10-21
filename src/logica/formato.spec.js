@@ -22,6 +22,17 @@ describe('Módulo de formato y cálculos', () => {
     it('devuelve "Fecha inválida" si el texto no es una fecha', () => {
       expect(formatearFecha('no-es-fecha')).toBe('Fecha inválida')
     })
+
+    it('no retrocede un día en fechas sin hora', () => {
+      expect(formatearFecha('2026-09-15')).toContain('15')
+      expect(formatearFecha('2026-01-01')).toContain('01')
+    })
+
+    it('muestra la hora local cuando el texto trae hora (sin desfase UTC)', () => {
+      // Regresión: un partido a las 18:00 se mostraba a las 21:00 en Chile
+      const texto = formatearFecha('2026-08-28T18:00:00', true)
+      expect(texto).toContain('18:00')
+    })
   })
 
   describe('formatearPesos', () => {

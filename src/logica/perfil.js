@@ -22,12 +22,12 @@ export function obtenerHistorialJugador(jugadorId, inscripciones = [], equipos =
   if (!jugadorId) return []
 
   const idsEquiposDelJugador = equipos
-    .filter((e) => e.integrantes?.some((i) => i.jugadorId === Number(jugadorId)))
-    .map((e) => e.id)
+      .filter((e) => e.integrantes?.some((i) => i.jugadorId === Number(jugadorId)))
+      .map((e) => e.id)
 
   return inscripciones.filter(
-    (i) =>
-      (i.participanteTipo === 'jugador' && i.participanteId === Number(jugadorId)) ||
-      (i.participanteTipo === 'equipo' && idsEquiposDelJugador.includes(i.participanteId))
+      (i) =>
+        (i.participanteTipo === 'jugador' && i.participanteId === Number(jugadorId)) ||
+        (i.participanteTipo === 'equipo' && idsEquiposDelJugador.includes(i.participanteId))
   )
 }
