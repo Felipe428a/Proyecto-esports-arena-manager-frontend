@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useState } from 'react'
 import {
   JUEGOS_INICIALES,
   JUGADORES_INICIALES,
@@ -8,6 +8,16 @@ import {
   PARTIDAS_INICIALES,
 } from '../data/datos'
 
+/**
+ * Contexto de datos de la aplicación: entidades (juegos, jugadores, equipos, torneos,
+ * inscripciones, partidas) y las acciones que las modifican.
+ *
+ * La NAVEGACIÓN ya no vive aquí: la maneja react-router (ver App.jsx). Antes este archivo
+ * mezclaba datos con un enrutador hecho a mano sobre window.location.hash.
+ *
+ * Solo las vistas (src/components/vistas) leen este contexto. Los componentes de
+ * presentación reciben todo por props, lo que permite probarlos sin un Provider.
+ */
 const AppContext = createContext(null)
 
 export function AppProvider({ children }) {
@@ -16,53 +26,15 @@ export function AppProvider({ children }) {
   const [equipos, setEquipos] = useState(EQUIPOS_INICIALES)
   const [torneos, setTorneos] = useState(TORNEOS_INICIALES)
   const [inscripciones, setInscripciones] = useState(INSCRIPCIONES_INICIALES)
-  const [partidas, setPartidas] = useState(PARTIDAS_INICIALES)
-
-  // Estado de navegación SPA
-  const [vistaActual, setVistaActual] = useState('inicio')
-  const [parametrosVista, setParametrosVista] = useState({})
-
-
-  useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash.replace(/^#\/?/, '')
-      if (!hash) {
-        setVistaActual('inicio')
-        setParametrosVista({})
-        return
-      }
-
-      const [ruta, queryString] = hash.split('?')
-      const params = new URLSearchParams(queryString || '')
-      const paramObj = {}
-      for (const [key, value] of params.entries()) {
-        paramObj[key] = isNaN(Number(value)) ? value : Number(value)
-      }
-
-      if (['inicio', 'torneos', 'detalle-torneo', 'inscripcion', 'equipo', 'perfil'].includes(ruta)) {
-        setVistaActual(ruta)
-        setParametrosVista(paramObj)
-      }
-    }
-
-    handleHashChange()
-    window.addEventListener('hashchange', handleHashChange)
-    return () => window.removeEventListener('hashchange', handleHashChange)
-  }, [])
-
-  const navegar = (vista, parametros = {}) => {
-    setVistaActual(vista)
-    setParametrosVista(parametros)
-    const queryString = new URLSearchParams(parametros).toString()
-    const nuevoHash = `#/${vista}${queryString ? `?${queryString}` : ''}`
-    window.location.hash = nuevoHash
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
+  const [partidas] = useState(PARTIDAS_INICIALES)
 
   const agregarInscripcion = ({ torneoId, participanteTipo, participanteId }) => {
     const torneoNum = Number(torneoId)
     const participanteNum = Number(participanteId)
-    const fecha = new Date().toISOString().slice(0, 10)
+    const hoy = new Date()
+    const dos = (n) => String(n).padStart(2, '0')
+    // Fecha local (toISOString devolvería la fecha UTC y de noche marcaría "mañana")
+    const fecha = `${hoy.getFullYear()}-${dos(hoy.getMonth() + 1)}-${dos(hoy.getDate())}`
 
     const nuevaInscripcion = {
       id: Math.max(...inscripciones.map((i) => i.id), 0) + 1,
@@ -115,24 +87,18 @@ export function AppProvider({ children }) {
 
     setEquipos((prev) =>
       prev.map((e) => {
-        if (e.id === equipoNum) {
-          if (e.integrantes.some((i) => i.jugadorId === jugadorNum)) return e
-          return {
-            ...e,
-            integrantes: [...e.integrantes, { jugadorId: jugadorNum, rol }],
-          }
-        }
-        return e
+        if (e.id !== equipoNum) return e
+        if (e.integrantes.some((i) => i.jugadorId === jugadorNum)) return e
+        return { ...e, integrantes: [...e.integrantes, { jugadorId: jugadorNum, rol }] }
       })
     )
 
     setJugadores((prev) =>
-      prev.map((j) => {
-        if (j.id === jugadorNum && !j.equipos.includes(equipoNum)) {
-          return { ...j, equipos: [...j.equipos, equipoNum] }
-        }
-        return j
-      })
+      prev.map((j) =>
+        j.id === jugadorNum && !j.equipos.includes(equipoNum)
+          ? { ...j, equipos: [...j.equipos, equipoNum] }
+          : j
+      )
     )
   }
 
@@ -141,24 +107,17 @@ export function AppProvider({ children }) {
     const jugadorNum = Number(jugadorId)
 
     setEquipos((prev) =>
-      prev.map((e) => {
-        if (e.id === equipoNum) {
-          return {
-            ...e,
-            integrantes: e.integrantes.filter((i) => i.jugadorId !== jugadorNum),
-          }
-        }
-        return e
-      })
+      prev.map((e) =>
+        e.id === equipoNum
+          ? { ...e, integrantes: e.integrantes.filter((i) => i.jugadorId !== jugadorNum) }
+          : e
+      )
     )
 
     setJugadores((prev) =>
-      prev.map((j) => {
-        if (j.id === jugadorNum) {
-          return { ...j, equipos: j.equipos.filter((id) => id !== equipoNum) }
-        }
-        return j
-      })
+      prev.map((j) =>
+        j.id === jugadorNum ? { ...j, equipos: j.equipos.filter((id) => id !== equipoNum) } : j
+      )
     )
   }
 
@@ -178,9 +137,6 @@ export function AppProvider({ children }) {
     torneos,
     inscripciones,
     partidas,
-    vistaActual,
-    parametrosVista,
-    navegar,
     agregarInscripcion,
     crearEquipo,
     agregarIntegrante,

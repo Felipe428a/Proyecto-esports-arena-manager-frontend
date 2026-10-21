@@ -1,12 +1,22 @@
 import EtiquetaEstado from './EtiquetaEstado'
 import BarraCupos from './BarraCupos'
 import { formatearFecha } from '../../logica/formato'
-import { useApp } from '../../context/AppContext'
 
-export default function TarjetaTorneo({ torneo, mostrarModalidad = true }) {
-  const { juegos, navegar } = useApp()
-  const juego = juegos.find((j) => j.id === torneo.juegoId)
-
+/**
+ * Tarjeta con el resumen de un torneo. Componente de presentación: todo llega por props.
+ *
+ * Props:
+ *  - torneo:            objeto del torneo (nombre, estado, cupoOcupado, cupoMax, fechaCierreInscripcion)
+ *  - juego:             juego del torneo (nombre, modalidad). Puede venir undefined
+ *  - mostrarModalidad:  si es false oculta la fila "Modalidad" (por defecto true)
+ *  - onVerDetalle:      se llama con el id del torneo al presionar "Ver detalle"
+ */
+export default function TarjetaTorneo({
+  torneo,
+  juego,
+  mostrarModalidad = true,
+  onVerDetalle = () => {},
+}) {
   return (
     <article className="tarjeta-torneo card card-body h-100">
       <EtiquetaEstado estado={torneo.estado} />
@@ -34,8 +44,8 @@ export default function TarjetaTorneo({ torneo, mostrarModalidad = true }) {
       </p>
       <button
         type="button"
-        className="boton boton-secundario boton-pequeno"
-        onClick={() => navegar('detalle-torneo', { id: torneo.id })}
+        className="btn btn-outline-light btn-sm"
+        onClick={() => onVerDetalle(torneo.id)}
       >
         Ver detalle
       </button>

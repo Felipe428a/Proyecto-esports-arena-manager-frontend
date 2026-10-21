@@ -1,29 +1,37 @@
 import { useState } from 'react'
-import { useApp } from '../../context/AppContext'
 
-export default function Encabezado() {
-  const { vistaActual, navegar } = useApp()
+/**
+ * Barra de navegación principal (Bootstrap navbar).
+ * Es un componente de presentación: no conoce el enrutador ni el contexto.
+ *
+ * Props:
+ *  - enlaces:    [{ id, ruta, texto }] elementos del menú
+ *  - rutaActual: ruta que se está mostrando (para marcar el enlace activo)
+ *  - onNavegar:  función que recibe la ruta destino (la entrega el padre)
+ *
+ * Estado propio: `abierto`, solo para plegar/desplegar el menú en pantallas pequeñas.
+ */
+export default function Encabezado({ enlaces = [], rutaActual = '', onNavegar = () => {} }) {
   const [abierto, setAbierto] = useState(false)
 
-  const links = [
-    { id: 'inicio', texto: 'Inicio' },
-    { id: 'torneos', texto: 'Torneos' },
-    { id: 'inscripcion', texto: 'Inscripción' },
-    { id: 'equipo', texto: 'Mi equipo' },
-    { id: 'perfil', texto: 'Mi perfil' },
-  ]
-
-  const ir = (id) => {
-    navegar(id)
-    setAbierto(false) // cierra el menú en pantallas pequeñas
+  // Los enlaces son <a href="#/ruta"> reales (funcionan con clic central o "copiar enlace"),
+  // pero se intercepta el clic para navegar sin recargar y cerrar el menú móvil.
+  const ir = (evento, ruta) => {
+    evento.preventDefault()
+    onNavegar(ruta)
+    setAbierto(false)
   }
 
   return (
     <header className="encabezado">
       <nav className="navbar navbar-expand-lg container" aria-label="Navegación principal">
-        <button type="button" className="navbar-brand marca border-0 bg-transparent" onClick={() => ir('inicio')}>
+        <a
+          className="navbar-brand marca"
+          href="#/inicio"
+          onClick={(e) => ir(e, '/inicio')}
+        >
           Arena<span>Manager</span>
-        </button>
+        </a>
         <button
           type="button"
           className="navbar-toggler"
@@ -36,18 +44,21 @@ export default function Encabezado() {
         </button>
         <div id="menu-principal" className={`collapse navbar-collapse ${abierto ? 'show' : ''}`}>
           <ul className="navbar-nav ms-auto">
-            {links.map((link) => (
-              <li key={link.id} className="nav-item">
-                <button
-                  type="button"
-                  className={`nav-link ${vistaActual === link.id ? 'active nav-activo' : ''}`}
-                  aria-current={vistaActual === link.id ? 'page' : undefined}
-                  onClick={() => ir(link.id)}
-                >
-                  {link.texto}
-                </button>
-              </li>
-            ))}
+            {enlaces.map((enlace) => {
+              const activo = rutaActual === enlace.ruta
+              return (
+                <li key={enlace.id} className="nav-item">
+                  <a
+                    className={`nav-link ${activo ? 'active nav-activo' : ''}`}
+                    href={`#${enlace.ruta}`}
+                    aria-current={activo ? 'page' : undefined}
+                    onClick={(e) => ir(e, enlace.ruta)}
+                  >
+                    {enlace.texto}
+                  </a>
+                </li>
+              )
+            })}
           </ul>
         </div>
       </nav>
