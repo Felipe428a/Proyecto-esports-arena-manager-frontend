@@ -11,7 +11,7 @@ export function finDelDia(valor) {
     return fecha
 }
 
-/** true si el texto tiene formato YYYY-MM-DD (sin hora). */
+/** true si el texto tiene formato YYYY-MM-DD (sin hora).*/
 export function esSoloFecha(valor) {
     return typeof valor === 'string' && SOLO_FECHA.test(valor)
 }
