@@ -67,8 +67,8 @@ Swagger unificado: **http://localhost:8070/swagger-ui.html** (elige el servicio 
 
 ## Entregables de la pauta
 
-- [ ] Repositorio GitHub público del **frontend** (subir la carpeta `../../../Downloads/fullstack3/fullstack3/frontend`).
-- [ ] Repositorio GitHub público del **backend** (subir la carpeta `../../../Downloads/fullstack3/fullstack3/backend`).
-- [ ] Proyectos comprimidos (sin `node_modules/` ni `target/`).
+- [x] Repositorio GitHub público del **frontend** (subir la carpeta `../../../Downloads/fullstack3/fullstack3/frontend`).
+- [x] Repositorio GitHub público del **backend** (subir la carpeta `../../../Downloads/fullstack3/fullstack3/backend`).
+- [x] Proyectos comprimidos (sin `node_modules/` ni `target/`).
 - [x] Manual de usuario con pantallazos → `../../../Downloads/fullstack3/fullstack3/docs/MANUAL_USUARIO.md` + `docs/capturas/`.
 - [x] Documento de integración → `../../../Downloads/fullstack3/fullstack3/docs/DOCUMENTO_INTEGRACION.md`.
