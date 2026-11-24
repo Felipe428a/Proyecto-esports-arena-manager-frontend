@@ -1,7 +1,9 @@
 node_modules/
 dist/
 coverage/
-../.idea/
+.idea/
 .vscode/
 *.log
 .DS_Store
+.env.production
+.env.local

@@ -1,8 +1,8 @@
 # eSports Arena Manager — Frontend (React)
 
-Aplicación web en **React 19 + Vite** con **Bootstrap 5** (diseño responsivo, paleta «Táctico Rojo»),
-enrutamiento con **react-router**, lógica de negocio en funciones puras y pruebas unitarias con
-**Jasmine + Karma** (con reporte de cobertura). Evaluación Parcial 2 — DSY1104 Desarrollo FullStack II.
+**React 19 + Vite + react-router 7 + Bootstrap 5**, conectado al backend de microservicios por el API Gateway.
+Login con **JWT**, **sesión persistente** (sobrevive a F5), **renovación automática** del token y
+**vistas/acciones restringidas por rol**. Evaluación Parcial 3 — DSY1104 Desarrollo Fullstack II.
 
 ## Integrantes
 
@@ -10,78 +10,76 @@ enrutamiento con **react-router**, lógica de negocio en funciones puras y prueb
 - Felipe Vargas — `fe.vargasi@duocuc.cl`
 - Aníbal Romero — `ani.romeroc@duocuc.cl`
 
-## Requisitos previos
+## Requisitos y comandos
 
-- **Node.js 20.19 o superior** (o 22.12+) — comprobar con `node -v`
-- **Google Chrome** instalado (Karma lo usa para ejecutar las pruebas). Si Karma no lo encuentra,
-  definir la variable `CHROME_BIN` con la ruta del ejecutable.
-
-## Comandos
+- Node.js 20.19+ (o 22.12+) y Google Chrome (Karma). Backend corriendo (ver `../../../../Downloads/fullstack3/fullstack3/backend`).
 
 | Comando | Descripción |
 | :-- | :-- |
-| `npm install` | Instala las dependencias. |
-| `npm run dev` | Servidor de desarrollo con recarga en caliente. |
-| `npm run build` | Genera la versión de producción en `dist/`. |
-| `npm run preview` | Sirve `dist/` localmente. |
-| `npm test` | Corre las pruebas una vez (Jasmine + Karma, Chrome headless). |
-| `npm run test:watch` | Corre las pruebas y queda escuchando cambios. |
-| `npm run test:coverage` | Corre las pruebas y genera la cobertura (`coverage/index.html`). |
+| `npm install` | Instala dependencias |
+| `npm run dev` | `http://localhost:5173` (usa `VITE_API_URL` de `.env.development`) |
+| `npm run build` | Versión de producción en `dist/` |
+| `npm test` | 150 pruebas con Jasmine + Karma (Chrome headless) |
+| `npm run test:coverage` | Pruebas + cobertura en `coverage/index.html` |
 
-## Rutas (enrutamiento de cliente con HashRouter)
+`VITE_API_URL` apunta al **API Gateway** (`http://localhost:8070/api/v1` en local). En Vercel se define en
+*Settings → Environment Variables*. Es pública: nunca contiene secretos.
 
-`#/inicio` · `#/torneos` · `#/detalle-torneo?id=N` · `#/inscripcion?torneo=N` · `#/equipo` · `#/perfil`
+## Rutas
+
+| Ruta | Acceso |
+| :-- | :-- |
+| `/inicio`, `/torneos`, `/torneos/:id` | Público |
+| `/login`, `/registro` | Público (si ya hay sesión, redirige) |
+| `/inscripcion`, `/equipo`, `/perfil` | Requiere sesión (`<RutaProtegida>`) |
+| `/admin` | ORGANIZADOR o ADMINISTRADOR. Dentro, *Juegos* y *Usuarios y roles* solo ADMINISTRADOR |
+
+`vercel.json` responde `index.html` en cualquier ruta para que recargar `/admin` no dé 404.
 
 ## Arquitectura
 
 ```text
 src/
-├── main.jsx                  HashRouter + AppProvider + App
-├── App.jsx                   Encabezado, <Routes> y pie; conecta el enrutador con los componentes
-├── rutas.js                  Rutas y menú centralizados
-├── data/datos.js             Datos de demostración (fechas relativas a hoy)
-├── context/AppContext.jsx    Datos y acciones (sin navegación)
-├── logica/                   Funciones puras (+ .spec.js)
-│   ├── fechas.js             finDelDia (corrige el desfase de zona horaria)
-│   ├── formato.js · torneos.js · ranking.js · inscripcion.js · equipo.js · perfil.js
-├── pruebas/montar.js         Ayudas para probar componentes (montar, clic, escribir, elegir)
-└── components/
-    ├── layout/               Encabezado, PiePagina            (reciben props)
-    ├── torneos/              TarjetaTorneo, BarraCupos, EtiquetaEstado,
-    │                         LlaveTorneo, ListaPartidas, TablaRanking
-    ├── inscripcion/          FormularioInscripcion
-    ├── equipo/               FormularioEquipo, PanelEquipo
-    ├── ui/                   MensajeEstado
-    └── vistas/               Inicio, Torneos, DetalleTorneo, Inscripcion, Equipo, Perfil, NoEncontrada
+├── main.jsx                 <AuthProvider> → <BrowserRouter> → <AppProvider> → <App>
+├── App.jsx                  Rutas públicas, protegidas y por rol
+├── rutas.js                 Menú centralizado y filtrado por rol
+├── services/
+│   ├── api.js               solicitar(): URL base, Bearer token, renovación con refresh, errores { mensaje }
+│   ├── sesion.js            leer/guardar/borrar sesión en localStorage + vencimiento (exp)
+│   ├── auth.js              login, registro, logout, me
+│   ├── arena.js             un servicio por microservicio (juegos, torneos, equipos, inscripciones…)
+│   └── adaptadores.js       JSON del backend → modelo que usan las vistas (funciones puras)
+├── auth/
+│   ├── useAuth.js           AuthContext + hook useAuth()
+│   ├── AuthProvider.jsx     sesión compartida, eventos sesion-expirada/renovada, sincroniza pestañas
+│   ├── RutaProtegida.jsx    sin sesión → /login (recuerda la página) · sin rol → "No tienes permiso"
+│   └── permisos.js          qué rol puede hacer cada acción
+├── context/AppContext.jsx   carga los datos de 9 microservicios (Promise.allSettled) y expone acciones
+├── pages/                   Login, Registro
+├── components/
+│   ├── vistas/              Inicio, Torneos, DetalleTorneo, Inscripcion, Equipo, Perfil, Admin, NoEncontrada
+│   ├── admin/               AdminTorneos, AdminPartidas, AdminSanciones, AdminJuegos, AdminUsuarios
+│   ├── layout/              Encabezado (usuario + rol + cerrar sesión), PiePagina, AvisoSesion
+│   ├── torneos/ · ui/       Componentes de presentación (props)
+└── logica/                  Funciones puras de negocio (sin cambios: siguen probadas)
 ```
 
-**Flujo de datos:** solo las *vistas* leen el contexto (`useApp`) y le entregan datos y funciones a
-los *componentes de presentación* por **props**. Los componentes avisan hacia arriba con funciones
-(`onVerDetalle`, `onEnviar`, `onNavegar`...). Por eso se pueden probar sin Provider.
+**Flujo de una petición protegida:** componente → `inscripcionesService.crear()` → `solicitar()` agrega
+`Authorization: Bearer <token>` → API Gateway → registration-service (`JwtFiltro` valida firma y rol) →
+PostgreSQL → `201` → `recargar()` actualiza el contexto → React vuelve a dibujar.
 
-**Estilos:** Bootstrap (grilla, formularios, botones, navbar) + `index.css` con variables de la
-paleta. El único estilo en línea es el ancho de `BarraCupos` (valor calculado en ejecución).
+## Seguridad de la sesión
 
-## Pruebas
+- Se guarda `{ token, refreshToken, expiraEn, refreshExpiraEn, usuario }` en `localStorage` (clave `sesion`), nunca la contraseña.
+- Access token de 15 min: si venció, `solicitar()` lo **renueva** con el refresh token antes de pedir; ante un 401 renueva una vez y repite.
+- Si no se puede renovar: borra la sesión, dispara `sesion-expirada` y se muestra “Tu sesión venció”.
+- Al recargar, la sesión se confirma con `GET /auth/me` (rol actualizado o cuenta desactivada).
+- Cerrar sesión revoca el refresh token en el backend y se refleja en todas las pestañas (`storage` event).
+- No se usa `dangerouslySetInnerHTML` (mitiga XSS); el backend vuelve a validar todo (401/403).
 
-Las 10 pruebas obligatorias del caso están cubiertas:
+## Pruebas (150)
 
-| # | Prueba | Archivo |
-| :-- | :-- | :-- |
-| 1 | `ordenarRanking` (puntos, desempate por diferencia) | `logica/ranking.spec.js` |
-| 2 | `calcularPuntos` | `logica/ranking.spec.js` |
-| 3 | `cuposDisponibles` | `logica/torneos.spec.js` |
-| 4 | `inscripcionFueraDePlazo` | `logica/inscripcion.spec.js` |
-| 5 | `tieneSancionActiva` | `logica/inscripcion.spec.js` |
-| 6 | `equipoCompleto` | `logica/inscripcion.spec.js` |
-| 7 | `TarjetaTorneo` (nombre, juego, estado) | `components/torneos/TarjetaTorneo.spec.js` |
-| 8 | `TablaRanking` | `components/torneos/TablaRanking.spec.js` |
-| 9 | `FormularioInscripcion` (espía + envío deshabilitado) | `components/inscripcion/FormularioInscripcion.spec.js` |
-| 10 | `LlaveTorneo` con «Por definir» | `components/torneos/LlaveTorneo.spec.js` |
-
-Además hay pruebas de integración de las seis vistas y la navegación (`src`).
-**Mocks:** espías con `jasmine.createSpy` (callbacks de componentes) y reloj simulado con
-`jasmine.clock().mockDate()` (plazos de inscripción). Informe de cobertura: `docs/COBERTURA_TESTING.md`.
-
-> Convención: las pruebas de componentes se llaman `*.spec.js` (no `.jsx`), porque karma-esbuild no
-> resuelve bien los `.spec.jsx`; el JSX funciona igual dentro de `.js`.
+Lógica pura (ranking, torneos, inscripción, equipo, perfil, formato, fechas), componentes (TarjetaTorneo,
+Encabezado con y sin sesión, BarraCupos, EtiquetaEstado, MensajeEstado), **`api.spec.js`** (Bearer, públicas,
+204, errores, 403, sin conexión, renovación previa y tras 401, sesión expirada), **`sesion.spec.js`**,
+**`adaptadores.spec.js`**, **`permisos.spec.js`** y **`RutaProtegida.spec.js`** (con `MemoryRouter`).

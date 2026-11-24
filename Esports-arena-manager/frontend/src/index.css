@@ -530,3 +530,102 @@ section + section {
     align-items: flex-start;
   }
 }
+
+/* ---------- Integración con backend: estados extra, sesión y panel ---------- */
+.estado-cerrado { color: var(--color-error); }
+.estado-cerrado::before { content: "◆ "; }
+.estado-cancelado { color: var(--color-texto-tenue); text-decoration: line-through; }
+.estado-borrador { color: var(--color-texto-tenue); border-style: dashed; }
+
+.usuario-sesion {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.92rem;
+  color: var(--color-texto);
+}
+.chip-rol {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+}
+.chip-rol--jugador { color: var(--color-acento); }
+.chip-rol--organizador { color: var(--color-exito); }
+.chip-rol--administrador { color: var(--color-primario); }
+
+.nav-tabs .nav-link {
+  color: var(--color-texto-tenue);
+  font-family: var(--fuente-titulos);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+.nav-tabs .nav-link.active {
+  color: var(--color-texto);
+  background-color: var(--color-superficie);
+  border-color: var(--color-superficie-alta) var(--color-superficie-alta) var(--color-superficie);
+}
+.table-responsive .tabla-datos { min-width: 560px; }
+
+/* ---------- Clases propias usadas por las vistas (botones, contenedor y rejilla) ---------- */
+.contenedor {
+  width: 100%;
+  max-width: var(--ancho-contenido);
+  margin: 0 auto;
+  padding: 0 var(--espacio-3);
+}
+
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--fuente-titulos);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  border: none;
+  border-radius: var(--radio-borde);
+  padding: 0.7rem 1.4rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.12s ease, background-color 0.12s ease, opacity 0.12s ease;
+}
+
+.boton-primario {
+  background-color: var(--color-primario);
+  color: var(--color-fondo);
+}
+
+.boton-primario:hover:not(:disabled) {
+  background-color: var(--color-primario-hover);
+  color: #ffffff;
+}
+
+.boton-secundario {
+  background-color: transparent;
+  color: var(--color-acento);
+  border: 1.5px solid var(--color-acento);
+}
+
+.boton-secundario:hover:not(:disabled) {
+  background-color: var(--color-superficie-alta);
+}
+
+.boton-pequeno {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+.boton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.rejilla-tarjetas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--espacio-3);
+}

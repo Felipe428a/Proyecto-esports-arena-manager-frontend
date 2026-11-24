@@ -1,22 +1,22 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { HashRouter } from 'react-router'
+import { BrowserRouter } from 'react-router'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './index.css'
 import App from './App.jsx'
-import { AppProvider } from './context/AppContext.jsx'
+import AuthProvider from './auth/AuthProvider'
+import { AppProvider } from './context/AppContext'
 
-const contenedor = document.getElementById('root')
-const raiz = createRoot(contenedor)
-
-// HashRouter mantiene las URLs con "#/" (#/torneos, #/detalle-torneo?id=1, ...) igual que
-// la versión anterior, y funciona al abrir el build desde cualquier hosting estático.
-raiz.render(
+// AuthProvider envuelve todo: cualquier componente puede usar useAuth().
+// BrowserRouter usa URLs limpias (/torneos/1); en Vercel, vercel.json responde index.html en toda ruta.
+createRoot(document.getElementById('root')).render(
     <StrictMode>
-        <HashRouter>
-            <AppProvider>
-                <App />
-            </AppProvider>
-        </HashRouter>
+        <AuthProvider>
+            <BrowserRouter>
+                <AppProvider>
+                    <App />
+                </AppProvider>
+            </BrowserRouter>
+        </AuthProvider>
     </StrictMode>
 )
