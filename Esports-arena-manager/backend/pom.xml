@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>esports-arena-manager</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>eSports Arena Manager</name>
+    <description>Backend distribuido por microservicios para Parcial 2</description>
+
+    <modules>
+        <module>auth-service</module>
+        <module>user-service</module>
+        <module>team-service</module>
+        <module>game-service</module>
+        <module>tournament-service</module>
+        <module>registration-service</module>
+        <module>sanction-service</module>
+        <module>match-service</module>
+        <module>result-service</module>
+        <module>ranking-service</module>
+        <module>prize-service</module>
+        <module>notification-service</module>
+        <module>discovery-server</module>
+        <module>api-gateway</module>
+    </modules>
+</project>

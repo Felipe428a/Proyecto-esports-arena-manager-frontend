@@ -1,0 +1,11 @@
+# Producción (Render.com): sin Eureka, cada ruta usa la URL pública del microservicio (*_SERVICE_URL)
+eureka:
+  client:
+    enabled: false
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: ${CORS_ORIGENES}

@@ -1,0 +1,134 @@
+# Levanta TODO el backend en Docker: PostgreSQL + 12 microservicios + API Gateway.
+#   docker compose up --build            (la primera vez tarda: compila cada servicio)
+#   docker compose up -d postgres        (solo la base de datos, para correr los servicios desde IntelliJ)
+# Frontend: npm run dev con VITE_API_URL=http://localhost:8070/api/v1
+# Requiere ~6 GB de RAM libres para todos los servicios.
+
+x-servicio: &servicio
+  restart: unless-stopped
+  depends_on:
+    postgres:
+      condition: service_healthy
+  environment: &entorno
+    DB_URL: jdbc:postgresql://postgres:5432/esports_arena
+    DB_USUARIO: postgres
+    DB_CLAVE: postgres
+    JWT_SECRETO: ${JWT_SECRETO:-clave-de-desarrollo-esports-arena-manager-2026-no-usar-en-produccion}
+    EUREKA_ENABLED: "false"
+    JAVA_TOOL_OPTIONS: "-Xmx256m"
+    USER_SERVICE_URL: http://user-service:8081
+    TEAM_SERVICE_URL: http://team-service:8082
+    TOURNAMENT_SERVICE_URL: http://tournament-service:8083
+    REGISTRATION_SERVICE_URL: http://registration-service:8084
+    SANCTION_SERVICE_URL: http://sanction-service:8085
+    MATCH_SERVICE_URL: http://match-service:8086
+    GAME_SERVICE_URL: http://game-service:8087
+    RESULT_SERVICE_URL: http://result-service:8088
+    RANKING_SERVICE_URL: http://ranking-service:8089
+    PRIZE_SERVICE_URL: http://prize-service:8090
+    NOTIFICATION_SERVICE_URL: http://notification-service:8091
+    AUTH_SERVICE_URL: http://auth-service:8080
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: esports_arena
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - datos-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d esports_arena"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  user-service:
+    <<: *servicio
+    build: ./user-service
+    ports:
+      - "8081:8081"
+
+  game-service:
+    <<: *servicio
+    build: ./game-service
+    ports:
+      - "8087:8087"
+
+  auth-service:
+    <<: *servicio
+    build: ./auth-service
+    ports:
+      - "8080:8080"
+
+  tournament-service:
+    <<: *servicio
+    build: ./tournament-service
+    ports:
+      - "8083:8083"
+
+  team-service:
+    <<: *servicio
+    build: ./team-service
+    ports:
+      - "8082:8082"
+
+  sanction-service:
+    <<: *servicio
+    build: ./sanction-service
+    ports:
+      - "8085:8085"
+
+  registration-service:
+    <<: *servicio
+    build: ./registration-service
+    ports:
+      - "8084:8084"
+
+  match-service:
+    <<: *servicio
+    build: ./match-service
+    ports:
+      - "8086:8086"
+
+  result-service:
+    <<: *servicio
+    build: ./result-service
+    ports:
+      - "8088:8088"
+
+  ranking-service:
+    <<: *servicio
+    build: ./ranking-service
+    ports:
+      - "8089:8089"
+
+  prize-service:
+    <<: *servicio
+    build: ./prize-service
+    ports:
+      - "8090:8090"
+
+  notification-service:
+    <<: *servicio
+    build: ./notification-service
+    ports:
+      - "8091:8091"
+
+  api-gateway:
+    build: ./api-gateway
+    restart: unless-stopped
+    depends_on:
+      - auth-service
+      - user-service
+    environment:
+      <<: *entorno
+      CORS_ORIGENES: ${CORS_ORIGENES:-http://localhost:5173,http://127.0.0.1:5173,http://localhost:4173}
+    ports:
+      - "8070:8070"
+
+volumes:
+  datos-postgres:

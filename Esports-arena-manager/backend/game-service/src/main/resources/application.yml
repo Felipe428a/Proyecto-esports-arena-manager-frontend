@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: game-service
+  datasource:
+    # Local: PostgreSQL del docker-compose. Nube: Supabase (variables DB_URL, DB_USUARIO, DB_CLAVE).
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/esports_arena}
+    username: ${DB_USUARIO:postgres}
+    password: ${DB_CLAVE:postgres}
+    hikari:
+      maximum-pool-size: ${DB_POOL_MAX:5}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        # Cada microservicio guarda sus tablas en su propio esquema (base de datos por servicio)
+        default_schema: ${DB_ESQUEMA:juegos}
+        hbm2ddl:
+          create_namespaces: true
+
+server:
+  port: ${PORT:8087}
+
+app:
+  jwt:
+    # Debe ser el MISMO secreto en todos los microservicios (lo firma auth-service, lo verifican todos)
+    secreto: ${JWT_SECRETO:clave-de-desarrollo-esports-arena-manager-2026-no-usar-en-produccion}
+  datos-iniciales: ${APP_DATOS_INICIALES:true}
+
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /doc/swagger-ui.html
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+eureka:
+  client:
+    enabled: ${EUREKA_ENABLED:true}
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka/}
+  instance:
+    prefer-ip-address: true

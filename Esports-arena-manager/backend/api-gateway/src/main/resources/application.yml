@@ -1,0 +1,196 @@
+# API Gateway: punto único de entrada para el frontend (React).
+# - Enruta /api/v1/** a cada microservicio.
+# - Resuelve CORS para todos (los microservicios no exponen CORS).
+# - Reenvía el header Authorization: cada microservicio valida el JWT y el rol.
+# - Publica un Swagger UI con la documentación de todos los servicios: /swagger-ui.html
+server:
+  port: ${PORT:8070}
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+      # Si un microservicio también agregara headers CORS, se deja uno solo
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        cors-configurations:
+          '[/**]':
+            # Local: http://localhost:5173 · Producción: la URL de Vercel (variable CORS_ORIGENES, separadas por coma)
+            allowedOrigins: ${CORS_ORIGENES:http://localhost:5173,http://127.0.0.1:5173,http://localhost:4173}
+            allowedMethods: GET,POST,PUT,PATCH,DELETE,OPTIONS
+            allowedHeaders: "*"
+            exposedHeaders: Link
+            maxAge: 3600
+      # uri: en local se usa Eureka (lb://nombre). En la nube se define la URL de cada servicio con *_SERVICE_URL.
+      routes:
+        - id: auth-service
+          uri: ${AUTH_SERVICE_URL:lb://auth-service}
+          predicates:
+            - Path=/api/v1/auth/**
+        - id: user-service
+          uri: ${USER_SERVICE_URL:lb://user-service}
+          predicates:
+            - Path=/api/v1/usuarios/**
+        - id: team-service
+          uri: ${TEAM_SERVICE_URL:lb://team-service}
+          predicates:
+            - Path=/api/v1/equipos/**
+        - id: tournament-service
+          uri: ${TOURNAMENT_SERVICE_URL:lb://tournament-service}
+          predicates:
+            - Path=/api/v1/torneos/**
+        - id: registration-service
+          uri: ${REGISTRATION_SERVICE_URL:lb://registration-service}
+          predicates:
+            - Path=/api/v1/inscripciones/**
+        - id: sanction-service
+          uri: ${SANCTION_SERVICE_URL:lb://sanction-service}
+          predicates:
+            - Path=/api/v1/sanciones/**
+        - id: match-service
+          uri: ${MATCH_SERVICE_URL:lb://match-service}
+          predicates:
+            - Path=/api/v1/partidas/**
+        - id: game-service
+          uri: ${GAME_SERVICE_URL:lb://game-service}
+          predicates:
+            - Path=/api/v1/juegos/**
+        - id: result-service
+          uri: ${RESULT_SERVICE_URL:lb://result-service}
+          predicates:
+            - Path=/api/v1/resultados/**
+        - id: ranking-service
+          uri: ${RANKING_SERVICE_URL:lb://ranking-service}
+          predicates:
+            - Path=/api/v1/rankings/**
+        - id: prize-service
+          uri: ${PRIZE_SERVICE_URL:lb://prize-service}
+          predicates:
+            - Path=/api/v1/premios/**
+        - id: notification-service
+          uri: ${NOTIFICATION_SERVICE_URL:lb://notification-service}
+          predicates:
+            - Path=/api/v1/notificaciones/**
+        - id: auth-service-docs
+          uri: ${AUTH_SERVICE_URL:lb://auth-service}
+          predicates:
+            - Path=/doc/auth/v3/api-docs
+          filters:
+            - RewritePath=/doc/auth/v3/api-docs, /v3/api-docs
+        - id: user-service-docs
+          uri: ${USER_SERVICE_URL:lb://user-service}
+          predicates:
+            - Path=/doc/user/v3/api-docs
+          filters:
+            - RewritePath=/doc/user/v3/api-docs, /v3/api-docs
+        - id: team-service-docs
+          uri: ${TEAM_SERVICE_URL:lb://team-service}
+          predicates:
+            - Path=/doc/team/v3/api-docs
+          filters:
+            - RewritePath=/doc/team/v3/api-docs, /v3/api-docs
+        - id: tournament-service-docs
+          uri: ${TOURNAMENT_SERVICE_URL:lb://tournament-service}
+          predicates:
+            - Path=/doc/tournament/v3/api-docs
+          filters:
+            - RewritePath=/doc/tournament/v3/api-docs, /v3/api-docs
+        - id: registration-service-docs
+          uri: ${REGISTRATION_SERVICE_URL:lb://registration-service}
+          predicates:
+            - Path=/doc/registration/v3/api-docs
+          filters:
+            - RewritePath=/doc/registration/v3/api-docs, /v3/api-docs
+        - id: sanction-service-docs
+          uri: ${SANCTION_SERVICE_URL:lb://sanction-service}
+          predicates:
+            - Path=/doc/sanction/v3/api-docs
+          filters:
+            - RewritePath=/doc/sanction/v3/api-docs, /v3/api-docs
+        - id: match-service-docs
+          uri: ${MATCH_SERVICE_URL:lb://match-service}
+          predicates:
+            - Path=/doc/match/v3/api-docs
+          filters:
+            - RewritePath=/doc/match/v3/api-docs, /v3/api-docs
+        - id: game-service-docs
+          uri: ${GAME_SERVICE_URL:lb://game-service}
+          predicates:
+            - Path=/doc/game/v3/api-docs
+          filters:
+            - RewritePath=/doc/game/v3/api-docs, /v3/api-docs
+        - id: result-service-docs
+          uri: ${RESULT_SERVICE_URL:lb://result-service}
+          predicates:
+            - Path=/doc/result/v3/api-docs
+          filters:
+            - RewritePath=/doc/result/v3/api-docs, /v3/api-docs
+        - id: ranking-service-docs
+          uri: ${RANKING_SERVICE_URL:lb://ranking-service}
+          predicates:
+            - Path=/doc/ranking/v3/api-docs
+          filters:
+            - RewritePath=/doc/ranking/v3/api-docs, /v3/api-docs
+        - id: prize-service-docs
+          uri: ${PRIZE_SERVICE_URL:lb://prize-service}
+          predicates:
+            - Path=/doc/prize/v3/api-docs
+          filters:
+            - RewritePath=/doc/prize/v3/api-docs, /v3/api-docs
+        - id: notification-service-docs
+          uri: ${NOTIFICATION_SERVICE_URL:lb://notification-service}
+          predicates:
+            - Path=/doc/notification/v3/api-docs
+          filters:
+            - RewritePath=/doc/notification/v3/api-docs, /v3/api-docs
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - name: auth-service
+        url: /doc/auth/v3/api-docs
+      - name: user-service
+        url: /doc/user/v3/api-docs
+      - name: team-service
+        url: /doc/team/v3/api-docs
+      - name: tournament-service
+        url: /doc/tournament/v3/api-docs
+      - name: registration-service
+        url: /doc/registration/v3/api-docs
+      - name: sanction-service
+        url: /doc/sanction/v3/api-docs
+      - name: match-service
+        url: /doc/match/v3/api-docs
+      - name: game-service
+        url: /doc/game/v3/api-docs
+      - name: result-service
+        url: /doc/result/v3/api-docs
+      - name: ranking-service
+        url: /doc/ranking/v3/api-docs
+      - name: prize-service
+        url: /doc/prize/v3/api-docs
+      - name: notification-service
+        url: /doc/notification/v3/api-docs
+
+eureka:
+  client:
+    enabled: ${EUREKA_ENABLED:true}
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka/}
+  instance:
+    prefer-ip-address: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
