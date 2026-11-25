@@ -1,0 +1,6 @@
+# Plantillas de variables de entorno (renombra según corresponda)
+# 1) Para desarrollo: crea un archivo llamado .env.development con:
+#    VITE_API_URL=http://localhost:8070/api/v1
+#    (si no existe, api.js usa ese mismo valor por defecto)
+# 2) Para producción: define VITE_API_URL en Vercel › Settings › Environment Variables
+VITE_API_URL=https://esports-api-gateway.onrender.com/api/v1

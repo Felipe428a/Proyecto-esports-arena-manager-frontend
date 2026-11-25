@@ -1,0 +1,19 @@
+# Perfil de producción: se activa con SPRING_PROFILES_ACTIVE=prod (Render.com).
+# Sin valores de reserva: si falta una variable, el servicio no arranca y lo dice en los logs.
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USUARIO}
+    password: ${DB_CLAVE}
+    hikari:
+      # Supabase limita las conexiones: pocas por servicio
+      maximum-pool-size: ${DB_POOL_MAX:2}
+
+app:
+  jwt:
+    secreto: ${JWT_SECRETO}
+
+eureka:
+  client:
+    # En la nube los servicios se llaman por URL (variables *_SERVICE_URL), sin Eureka
+    enabled: ${EUREKA_ENABLED:false}
