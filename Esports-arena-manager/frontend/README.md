@@ -12,7 +12,7 @@ Login con **JWT**, **sesión persistente** (sobrevive a F5), **renovación autom
 
 ## Requisitos y comandos
 
-- Node.js 20.19+ (o 22.12+) y Google Chrome (Karma). Backend corriendo (ver `../../../../Downloads/fullstack3/fullstack3/backend`).
+- Node.js 20.19+ (o 22.12+) y Google Chrome (Karma). Backend corriendo (ver `../backend`).
 
 | Comando | Descripción |
 | :-- | :-- |
