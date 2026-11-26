@@ -56,19 +56,19 @@ Swagger unificado: **http://localhost:8070/swagger-ui.html** (elige el servicio 
 | :-- | :-- | :-- |
 | Backend | `cd backend` · `.\mvnw.cmd test` | 139 pruebas: servicios (Mockito), JWT (firma, vencimiento, alteración), refresh token, seguridad 401/403 + CRUD con MockMvc |
 | Frontend | `cd frontend` · `npm test` · `npm run test:coverage` | 150 pruebas: lógica, componentes, `solicitar()` con token y renovación, sesión en localStorage, adaptadores, permisos y `RutaProtegida` |
-| Integración | Postman: `../../../Downloads/fullstack3/fullstack3/backend/postman/esports-arena-parcial3.postman_collection.json` | 30 peticiones / 34 verificaciones a través del Gateway (login, 401/403, CRUD, reglas de dueño, logout) |
+| Integración | Postman: `backend/postman/esports-arena-parcial3.postman_collection.json` | 30 peticiones / 34 verificaciones a través del Gateway (login, 401/403, CRUD, reglas de dueño, logout) |
 
 ## Documentación
 
-- [Documento de integración](../../../Downloads/fullstack3/fullstack3/docs/DOCUMENTO_INTEGRACION.md) — cómo se cumple cada indicador de la pauta.
-- [Manual de usuario](../../../Downloads/fullstack3/fullstack3/docs/MANUAL_USUARIO.md) — paso a paso con capturas por rol.
-- [Despliegue en la nube](../../../Downloads/fullstack3/fullstack3/docs/DESPLIEGUE.md) — Supabase, Render.com y Vercel.
-- [Guía para la presentación](../../../Downloads/fullstack3/fullstack3/docs/GUIA_PRESENTACION.md) — qué mostrar y dónde está cada cosa en el código.
+- [Documento de integración](docs/DOCUMENTO_INTEGRACION.md) — cómo se cumple cada indicador de la pauta.
+- [Manual de usuario](docs/MANUAL_USUARIO.md) — paso a paso con capturas por rol.
+- [Despliegue en la nube](docs/DESPLIEGUE.md) — Supabase, Render.com y Vercel.
+- [Guía para la presentación](docs/GUIA_PRESENTACION.md) — qué mostrar y dónde está cada cosa en el código.
 
 ## Entregables de la pauta
 
-- [x] Repositorio GitHub público del **frontend** (subir la carpeta `../../../Downloads/fullstack3/fullstack3/frontend`).
-- [x] Repositorio GitHub público del **backend** (subir la carpeta `../../../Downloads/fullstack3/fullstack3/backend`).
+- [x] Repositorio GitHub público del **frontend** (subir la carpeta `frontend`).
+- [x] Repositorio GitHub público del **backend** (subir la carpeta `backend`).
 - [x] Proyectos comprimidos (sin `node_modules/` ni `target/`).
-- [x] Manual de usuario con pantallazos → `../../../Downloads/fullstack3/fullstack3/docs/MANUAL_USUARIO.md` + `docs/capturas/`.
-- [x] Documento de integración → `../../../Downloads/fullstack3/fullstack3/docs/DOCUMENTO_INTEGRACION.md`.
+- [x] Manual de usuario con pantallazos → `docs/MANUAL_USUARIO.md` + `docs/capturas/`.
+- [x] Documento de integración → `docs/DOCUMENTO_INTEGRACION.md`.
