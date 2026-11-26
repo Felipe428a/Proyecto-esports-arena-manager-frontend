@@ -15,4 +15,6 @@ COPY --from=build /app/target/prize-service.jar app.jar
 # Java usa hasta el 70 % de la memoria (plan gratuito de Render: 512 MB)
 ENV JAVA_TOOL_OPTIONS="-XX:MaxRAMPercentage=70"
 EXPOSE 8090
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Render.com entrega DATABASE_URL (postgresql://usuario:clave@host/base): si existe, se convierte a JDBC.
+# En local y en docker-compose no existe y se usa DB_URL tal cual.
+ENTRYPOINT ["sh", "-c", "if [ -n \"$DATABASE_URL\" ]; then export DB_URL=\"jdbc:postgresql://${DATABASE_URL##*@}\"; fi; exec java -jar app.jar"]
